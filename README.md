@@ -10,5 +10,5 @@ Built for developers who demand power, flexibility, and control — Solix illumi
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/solix-engine.git
-cd solix-engine
+git clone https://github.com/AiryyCodes/Solix.git
+cd Solix
