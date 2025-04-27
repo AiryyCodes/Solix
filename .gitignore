@@ -1,5 +1,6 @@
 # Build Files
 build
+.cache
 
 # Vim Session
 Session.vim
