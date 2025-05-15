@@ -3,5 +3,5 @@ project(SolixEngine)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory("Core")
-add_subdirectory("Editor")
+add_subdirectory("Deps")
+add_subdirectory("Code")
