@@ -3,6 +3,10 @@
 #include "Core/Logger.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
+#include "Renderer/IShader.h"
+#include "Renderer/OpenGL/OpenGLArrayBuffer.h"
+#include "Renderer/OpenGL/OpenGLShader.h"
+#include "Renderer/OpenGL/OpenGLVertexArray.h"
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
@@ -45,4 +49,25 @@ void OpenGLRenderer::ClearColor(const Color &color) const
 {
     Color normalized = color.Normalize();
     glClearColor(normalized.r, normalized.g, normalized.b, normalized.a);
+}
+
+void OpenGLRenderer::DrawArrays(const Mesh &mesh) const
+{
+    mesh.Bind();
+    glDrawArrays(GL_TRIANGLES, 0, mesh.GetNumVertices());
+}
+
+Ref<IArrayBuffer> OpenGLRenderer::CreateArrayBuffer()
+{
+    return CreateRef<OpenGLArrayBuffer>();
+}
+
+Ref<IVertexArray> OpenGLRenderer::CreateVertexArray()
+{
+    return CreateRef<OpenGLVertexArray>();
+}
+
+Ref<IShader> OpenGLRenderer::CreateShader()
+{
+    return CreateRef<OpenGLShader>();
 }

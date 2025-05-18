@@ -1,56 +1,50 @@
+#include "Core/Application.h"
 #include "Core/Base.h"
+#include "Core/List.h"
 #include "Core/Logger.h"
-#include "Core/Optional.h"
-#include "Core/Result.h"
+#include "Core/Math/Vector.h"
 #include "Renderer/IRenderer.h"
+#include "Renderer/IShader.h"
 #include "Renderer/IWindow.h"
-#include "Renderer/OpenGL/OpenGLRenderer.h"
-#include "Renderer/Window.h"
+#include "Renderer/Mesh.h"
+
+#include <cstdlib>
+
+static List<Vector3> TRIANGLE_VERTICES = {
+    Vector3(-0.5f, -0.5f, 0.0f),
+    Vector3(0.5f, -0.5f, 0.0f),
+    Vector3(0.0f, 0.5f, 0.0f),
+};
 
 int main()
 {
     LOG_INFO("Starting editor...");
 
-    LOG_INFO("Initializing renderer...");
-
-    Scope<IRenderer> renderer = CreateScope<OpenGLRenderer>();
-    Optional<Error> error = renderer->OnPreInit();
-    if (error.HasValue())
-    {
-        LOG_ERROR("{}", error.GetValue().GetMessage());
-        LOG_ERROR("Failed pre-initialization of renderer.");
-        return EXIT_FAILURE;
-    }
-
-    LOG_INFO("Creating window...");
-
-    Scope<IWindow> window = CreateScope<Window>(1280, 720, "Solix Engine");
-    error = window->OnInit();
-    if (error.HasValue())
-    {
-        LOG_ERROR("{}", error.GetValue().GetMessage());
-        LOG_ERROR("Failed to initialize window.");
-        return EXIT_FAILURE;
-    }
-
-    LOG_INFO("Successfully created window!")
-
-    error = renderer->OnInit();
-    if (error.HasValue())
-    {
-        LOG_ERROR("{}", error.GetValue().GetMessage());
-        LOG_ERROR("Failed to initialize renderer.");
-        return EXIT_FAILURE;
-    }
-
-    LOG_INFO("Successfully initialized renderer!")
+    Ref<Application> app = Application::Start();
 
     LOG_INFO("Editor started successfully!");
+
+    Ref<IWindow> window = app->GetWindow();
+    Ref<IRenderer> renderer = app->GetRenderer();
+
+    Ref<IShader> shader = renderer->CreateShader();
+    auto result = shader->OnInit("Resources/Shaders/Main.vert", "Resources/Shaders/Main.frag");
+    if (result.HasValue())
+    {
+        LOG_ERROR(result.GetValue());
+        return EXIT_FAILURE;
+    }
+
+    Mesh mesh;
+    mesh.SetVertices(TRIANGLE_VERTICES);
 
     while (!window->IsClosing())
     {
         renderer->Clear();
         renderer->ClearColor(Color(0, 0, 0, 255));
+
+        shader->Bind();
+        renderer->DrawArrays(mesh);
 
         window->PollEvents();
         window->SwapBuffers();
