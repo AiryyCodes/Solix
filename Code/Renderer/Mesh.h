@@ -5,6 +5,7 @@
 #include "Core/Math/Vector.h"
 #include "Renderer/IArrayBuffer.h"
 #include "Renderer/IVertexArray.h"
+#include "Renderer/Layout.h"
 
 class Mesh
 {
@@ -13,6 +14,8 @@ public:
 
     void Bind() const;
     void Unbind() const;
+
+    void SetLayout(const BufferLayout &layout);
 
     void SetVertices(List<Vector3> vertices);
 

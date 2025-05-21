@@ -9,4 +9,7 @@ public:
     virtual ~IArrayBuffer() = default;
 
     virtual Optional<Error> OnInit(const void *data, int size) = 0;
+
+    virtual void Bind() = 0;
+    virtual void Unbind() = 0;
 };

@@ -2,6 +2,7 @@
 
 #include "Core/Optional.h"
 #include "Core/Result.h"
+#include "Renderer/Layout.h"
 
 class IVertexArray
 {
@@ -12,4 +13,6 @@ public:
 
     virtual void Bind() = 0;
     virtual void Unbind() = 0;
+
+    virtual void SetLayout(const BufferLayout &layout) = 0;
 };

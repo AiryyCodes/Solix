@@ -1,5 +1,4 @@
 #include "Renderer/OpenGL/OpenGLArrayBuffer.h"
-#include "Core/Math/Vector.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
 
@@ -17,10 +16,17 @@ Optional<Error> OpenGLArrayBuffer::OnInit(const void *data, int size)
 
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3), (void *)0);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     return Optional<Error>::Empty();
+}
+
+void OpenGLArrayBuffer::Bind()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, m_Id);
+}
+
+void OpenGLArrayBuffer::Unbind()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

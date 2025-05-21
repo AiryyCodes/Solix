@@ -6,6 +6,7 @@
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 #include "Renderer/IWindow.h"
+#include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
 
 #include <cstdlib>
@@ -35,8 +36,12 @@ int main()
         return EXIT_FAILURE;
     }
 
+    BufferLayout layout;
+    layout.AddElement("a_Position", BufferDataType::Float3);
+
     Mesh mesh;
     mesh.SetVertices(TRIANGLE_VERTICES);
+    mesh.SetLayout(layout);
 
     while (!window->IsClosing())
     {

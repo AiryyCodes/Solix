@@ -11,6 +11,9 @@ public:
 
     virtual Optional<Error> OnInit(const void *data, int size) override;
 
+    virtual void Bind() override;
+    virtual void Unbind() override;
+
 private:
     unsigned int m_Id = 0;
 };
