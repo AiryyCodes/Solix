@@ -25,5 +25,5 @@ private:
     List<Ref<IArrayBuffer>> m_ArrayBuffers;
     Ref<IVertexArray> m_VertexArray;
 
-    int m_NumVertices;
+    int m_NumVertices = 0;
 };

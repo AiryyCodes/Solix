@@ -19,6 +19,12 @@ public:
 
     virtual bool IsClosing() const override { return glfwWindowShouldClose(m_Window); }
 
+    virtual int GetWidth() const override;
+    virtual void SetWidth(int width) override;
+
+    virtual int GetHeight() const override;
+    virtual void SetHeight(int height) override;
+
 private:
     GLFWwindow *m_Window;
 

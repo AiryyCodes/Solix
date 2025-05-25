@@ -51,6 +51,11 @@ void OpenGLRenderer::ClearColor(const Color &color) const
     glClearColor(normalized.r, normalized.g, normalized.b, normalized.a);
 }
 
+void OpenGLRenderer::SetViewport(int width, int height, int x, int y) const
+{
+    glViewport(x, y, width, height);
+}
+
 void OpenGLRenderer::DrawArrays(const Mesh &mesh) const
 {
     mesh.Bind();

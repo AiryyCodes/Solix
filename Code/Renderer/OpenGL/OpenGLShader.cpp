@@ -92,3 +92,9 @@ void OpenGLShader::Unbind() const
 {
     glUseProgram(0);
 }
+
+void OpenGLShader::SetUniform(const std::string &name, const Matrix4 &value)
+{
+    int location = glGetUniformLocation(m_Id, name.c_str());
+    glUniformMatrix4fv(location, 1, GL_FALSE, value.GetValue());
+}

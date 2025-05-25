@@ -19,6 +19,7 @@ public:
 
     virtual void Clear() const = 0;
     virtual void ClearColor(const Color &color) const = 0;
+    virtual void SetViewport(int width, int height, int x, int y) const = 0;
 
     virtual void DrawArrays(const Mesh &mesh) const = 0;
 

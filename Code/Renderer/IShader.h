@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Math/Matrix.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
 
@@ -14,4 +15,6 @@ public:
 
     virtual void Bind() const = 0;
     virtual void Unbind() const = 0;
+
+    virtual void SetUniform(const std::string &name, const Matrix4 &value) = 0;
 };

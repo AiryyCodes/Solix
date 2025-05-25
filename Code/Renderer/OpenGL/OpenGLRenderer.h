@@ -13,6 +13,7 @@ public:
 
     virtual void Clear() const override;
     virtual void ClearColor(const Color &color) const override;
+    virtual void SetViewport(int width, int height, int x, int y) const override;
 
     virtual void DrawArrays(const Mesh &mesh) const override;
 

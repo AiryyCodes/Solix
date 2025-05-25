@@ -1,5 +1,6 @@
 #include "Renderer/Mesh.h"
 #include "Core/Application.h"
+#include "Core/Logger.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/Layout.h"
 
@@ -32,7 +33,7 @@ void Mesh::SetVertices(List<Vector3> vertices)
 
     m_ArrayBuffers.Add(buffer);
 
-    m_NumVertices = vertices.GetLength();
+    m_NumVertices += vertices.GetLength();
 }
 
 void Mesh::SetLayout(const BufferLayout &layout)

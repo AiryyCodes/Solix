@@ -26,3 +26,31 @@ Optional<Error> Window::OnInit()
 
     return Optional<Error>::Empty();
 }
+
+int Window::GetWidth() const
+{
+    int width, height;
+    glfwGetWindowSize(m_Window, &width, &height);
+    return width;
+}
+
+void Window::SetWidth(int width)
+{
+    int currentWidth, currentHeight;
+    glfwGetWindowSize(m_Window, &currentWidth, &currentHeight);
+    glfwSetWindowSize(m_Window, width, currentHeight);
+}
+
+int Window::GetHeight() const
+{
+    int width, height;
+    glfwGetWindowSize(m_Window, &width, &height);
+    return height;
+}
+
+void Window::SetHeight(int height)
+{
+    int currentWidth, currentHeight;
+    glfwGetWindowSize(m_Window, &currentWidth, &currentWidth);
+    glfwSetWindowSize(m_Window, currentWidth, height);
+}
