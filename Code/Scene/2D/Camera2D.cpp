@@ -2,6 +2,14 @@
 #include "Core/Application.h"
 #include "Core/Math/Matrix.h"
 
+void Camera2D::Render()
+{
+    Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
+
+    mainShader->SetUniform("u_View", GetViewMatrix());
+    mainShader->SetUniform("u_Projection", GetProjectionMatrix());
+}
+
 Matrix4 Camera2D::GetProjectionMatrix()
 {
     Application &app = Application::Get();

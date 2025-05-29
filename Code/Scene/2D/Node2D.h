@@ -7,9 +7,14 @@
 class Node2D : public Node
 {
 public:
-    virtual void OnInit() {}
-    virtual void OnUpdate() {}
-    virtual void OnRender() {}
+    virtual void OnInit() override {}
+    virtual void OnUpdate() override {}
+    virtual void OnRender() override {}
+
+    /* FOR INTERNAL LOGIC */
+    virtual void Init() override {}
+    virtual void Update() override {}
+    virtual void Render() override;
 
     Matrix4 GetTransformMatrix() const;
 
@@ -18,6 +23,6 @@ public:
 
 private:
     Vector2 m_Position = {0.0f, 0.0f};
-    float m_Rotation = 0.0f;
     Vector2 m_Scale = {1.0f, 1.0f};
+    float m_Rotation = 0.0f;
 };

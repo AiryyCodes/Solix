@@ -17,6 +17,8 @@ public:
     virtual Optional<Error> OnPreInit() = 0;
     virtual Optional<Error> OnInit() = 0;
 
+    virtual void OnShutdown() = 0;
+
     virtual void Clear() const = 0;
     virtual void ClearColor(const Color &color) const = 0;
     virtual void SetViewport(int width, int height, int x, int y) const = 0;
@@ -26,4 +28,9 @@ public:
     virtual Ref<IArrayBuffer> CreateArrayBuffer() = 0;
     virtual Ref<IVertexArray> CreateVertexArray() = 0;
     virtual Ref<IShader> CreateShader() = 0;
+
+    virtual Ref<IShader> GetMainShader() = 0;
+
+    static IRenderer &Get();
+    static void Set(IRenderer *renderer);
 };

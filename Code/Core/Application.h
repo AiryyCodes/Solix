@@ -11,6 +11,7 @@ public:
     static Application &Get() { return *m_Instance; }
 
     void OnInit();
+    void OnShutdown();
 
     Ref<IRenderer> GetRenderer() const { return m_Renderer; }
     Ref<IWindow> GetWindow() const { return m_Window; }

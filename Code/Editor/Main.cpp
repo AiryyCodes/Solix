@@ -11,6 +11,7 @@
 #include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
 #include "Scene/2D/Camera2D.h"
+#include "Scene/Scene.h"
 
 #include <cstdlib>
 
@@ -42,14 +43,6 @@ int main()
     Ref<IWindow> window = app->GetWindow();
     Ref<IRenderer> renderer = app->GetRenderer();
 
-    Ref<IShader> shader = renderer->CreateShader();
-    auto result = shader->OnInit("Resources/Shaders/Main.vert", "Resources/Shaders/Main.frag");
-    if (result.HasValue())
-    {
-        LOG_ERROR(result.GetValue());
-        return EXIT_FAILURE;
-    }
-
     BufferLayout layout;
     layout.AddElement("a_Position", BufferDataType::Float3);
 
@@ -57,12 +50,16 @@ int main()
     mesh.SetVertices(QUAD_VERTICES);
     mesh.SetLayout(layout);
 
-    Camera2D camera;
+    Scene scene;
+
+    Ref<Camera2D> camera = scene.AddNode<Camera2D>("Camera2D");
 
     Matrix4 transform = Matrix4::Identity();
-    transform.Scale(Vector2(1.0f, 2.0f));
-    transform.RotateZ(Math::ToRadians(15.0f));
+    transform.Scale(Vector2(1.0f, 1.0f));
+    transform.RotateZ(Math::ToRadians(0.0f));
     transform.Translate(Vector2(0.0f, 0.0f));
+
+    scene.OnInit();
 
     while (!window->IsClosing())
     {
@@ -70,16 +67,20 @@ int main()
         renderer->ClearColor(Color(0, 0, 0, 255));
         renderer->SetViewport(window->GetWidth(), window->GetHeight(), 0, 0);
 
-        shader->Bind();
-        shader->SetUniform("u_Transform", transform);
-        shader->SetUniform("u_View", camera.GetViewMatrix());
-        shader->SetUniform("u_Projection", camera.GetProjectionMatrix());
+        scene.OnUpdate();
+
+        renderer->GetMainShader()->Bind();
+        scene.OnRender();
+
+        renderer->GetMainShader()->SetUniform("u_Transform", transform);
 
         renderer->DrawArrays(mesh);
 
         window->PollEvents();
         window->SwapBuffers();
     }
+
+    app->OnShutdown();
 
     return EXIT_SUCCESS;
 }

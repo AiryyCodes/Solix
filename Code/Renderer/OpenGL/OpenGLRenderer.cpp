@@ -11,6 +11,11 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+OpenGLRenderer::OpenGLRenderer()
+{
+    IRenderer::Set(this);
+}
+
 Optional<Error> OpenGLRenderer::OnPreInit()
 {
     LOG_INFO("Initializing GLFW...");
@@ -37,7 +42,22 @@ Optional<Error> OpenGLRenderer::OnInit()
 
     LOG_INFO("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(status), GLAD_VERSION_MINOR(status));
 
+    Ref<IShader> shader = CreateShader();
+    auto result = shader->OnInit("Resources/Shaders/Main.vert", "Resources/Shaders/Main.frag");
+    if (result.HasValue())
+    {
+        LOG_ERROR(result.GetValue());
+        return Optional<Error>(Error("Failed to initialize main shader."));
+    }
+
+    m_MainShader = shader;
+
     return Optional<Error>::Empty();
+}
+
+void OpenGLRenderer::OnShutdown()
+{
+    m_MainShader.reset();
 }
 
 void OpenGLRenderer::Clear() const

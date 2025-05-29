@@ -90,7 +90,10 @@ void OpenGLShader::Bind() const
 
 void OpenGLShader::Unbind() const
 {
-    glUseProgram(0);
+    if (glIsProgram(m_Id))
+    {
+        glUseProgram(0);
+    }
 }
 
 void OpenGLShader::SetUniform(const std::string &name, const Matrix4 &value)

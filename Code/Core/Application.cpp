@@ -55,3 +55,11 @@ void Application::OnInit()
 
     LOG_INFO("Successfully initialized renderer!")
 }
+
+void Application::OnShutdown()
+{
+    if (m_Renderer)
+    {
+        m_Renderer->OnShutdown();
+    }
+}
