@@ -2,15 +2,13 @@
 #include "Core/Base.h"
 #include "Core/List.h"
 #include "Core/Logger.h"
-#include "Core/Math/Math.h"
-#include "Core/Math/Matrix.h"
 #include "Core/Math/Vector.h"
 #include "Renderer/IRenderer.h"
-#include "Renderer/IShader.h"
 #include "Renderer/IWindow.h"
 #include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
 #include "Scene/2D/Camera2D.h"
+#include "Scene/2D/MeshRenderer2D.h"
 #include "Scene/Scene.h"
 
 #include <cstdlib>
@@ -54,10 +52,12 @@ int main()
 
     Ref<Camera2D> camera = scene.AddNode<Camera2D>("Camera2D");
 
-    Matrix4 transform = Matrix4::Identity();
-    transform.Scale(Vector2(1.0f, 1.0f));
-    transform.RotateZ(Math::ToRadians(0.0f));
-    transform.Translate(Vector2(0.0f, 0.0f));
+    Ref<MeshRenderer2D> meshRenderer = scene.AddNode<MeshRenderer2D>("MeshRenderer2D");
+    meshRenderer->SetMesh(mesh);
+
+    Ref<MeshRenderer2D> meshRenderer2 = scene.AddNode<MeshRenderer2D>("MeshRenderer2D");
+    meshRenderer2->SetMesh(mesh);
+    meshRenderer2->SetPosition(Vector2(1.0f, 1.0f));
 
     scene.OnInit();
 
@@ -71,10 +71,6 @@ int main()
 
         renderer->GetMainShader()->Bind();
         scene.OnRender();
-
-        renderer->GetMainShader()->SetUniform("u_Transform", transform);
-
-        renderer->DrawArrays(mesh);
 
         window->PollEvents();
         window->SwapBuffers();

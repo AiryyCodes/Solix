@@ -1,6 +1,5 @@
 #include "Renderer/Mesh.h"
 #include "Core/Application.h"
-#include "Core/Logger.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/Layout.h"
 
