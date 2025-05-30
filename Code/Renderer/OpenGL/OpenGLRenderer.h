@@ -13,6 +13,8 @@ public:
 
     virtual Optional<Error> OnPreInit() override;
     virtual Optional<Error> OnInit() override;
+    virtual void OnFrameBegin() override;
+    virtual void OnFrameEnd() override;
 
     virtual void OnShutdown() override;
 

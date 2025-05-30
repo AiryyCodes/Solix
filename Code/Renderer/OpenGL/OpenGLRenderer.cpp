@@ -10,6 +10,9 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_glfw.h>
 
 OpenGLRenderer::OpenGLRenderer()
 {
@@ -42,6 +45,8 @@ Optional<Error> OpenGLRenderer::OnInit()
 
     LOG_INFO("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(status), GLAD_VERSION_MINOR(status));
 
+    ImGui_ImplOpenGL3_Init();
+
     Ref<IShader> shader = CreateShader();
     auto result = shader->OnInit("Resources/Shaders/Main.vert", "Resources/Shaders/Main.frag");
     if (result.HasValue())
@@ -55,8 +60,25 @@ Optional<Error> OpenGLRenderer::OnInit()
     return Optional<Error>::Empty();
 }
 
+void OpenGLRenderer::OnFrameBegin()
+{
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+}
+
+void OpenGLRenderer::OnFrameEnd()
+{
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
 void OpenGLRenderer::OnShutdown()
 {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
     m_MainShader.reset();
 }
 

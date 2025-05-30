@@ -16,6 +16,8 @@ public:
 
     virtual Optional<Error> OnPreInit() = 0;
     virtual Optional<Error> OnInit() = 0;
+    virtual void OnFrameBegin() = 0;
+    virtual void OnFrameEnd() = 0;
 
     virtual void OnShutdown() = 0;
 

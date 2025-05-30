@@ -11,4 +11,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Core)
 
 find_package(glfw3 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw glad)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw glad imgui)

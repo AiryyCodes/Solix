@@ -11,6 +11,10 @@
 #include "Scene/2D/MeshRenderer2D.h"
 #include "Scene/Scene.h"
 
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+
 #include <cstdlib>
 
 static List<Vector3> TRIANGLE_VERTICES = {
@@ -34,12 +38,19 @@ int main()
 {
     LOG_INFO("Starting editor...");
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
     Ref<Application> app = Application::Start();
 
     LOG_INFO("Editor started successfully!");
 
     Ref<IWindow> window = app->GetWindow();
     Ref<IRenderer> renderer = app->GetRenderer();
+
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     BufferLayout layout;
     layout.AddElement("a_Position", BufferDataType::Float3);
@@ -67,10 +78,16 @@ int main()
         renderer->ClearColor(Color(0, 0, 0, 255));
         renderer->SetViewport(window->GetWidth(), window->GetHeight(), 0, 0);
 
+        renderer->OnFrameBegin();
+
         scene.OnUpdate();
 
         renderer->GetMainShader()->Bind();
         scene.OnRender();
+
+        ImGui::ShowDemoWindow();
+
+        renderer->OnFrameEnd();
 
         window->PollEvents();
         window->SwapBuffers();
