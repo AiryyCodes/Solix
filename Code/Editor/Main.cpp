@@ -10,6 +10,7 @@
 #include "Scene/2D/Camera2D.h"
 #include "Scene/2D/MeshRenderer2D.h"
 #include "Scene/Scene.h"
+#include "imgui_internal.h"
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -85,7 +86,43 @@ int main()
         renderer->GetMainShader()->Bind();
         scene.OnRender();
 
-        ImGui::ShowDemoWindow();
+        const ImGuiViewport *viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(viewport->WorkSize);
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+        ImGui::Begin("Dockspace", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
+
+        ImGuiID dockspaceId = ImGui::GetID("MainDockspace");
+
+        ImGuiDockNode *node = ImGui::DockBuilderGetNode(dockspaceId);
+        bool has_layout = node && node->IsDockSpace();
+
+        ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+
+        if (!has_layout)
+        {
+            ImGuiID hierarchyId = ImGui::DockBuilderSplitNode(dockspaceId, ImGuiDir_Left, 0.2f, nullptr, &dockspaceId);
+            ImGuiID inspectorId = ImGui::DockBuilderSplitNode(dockspaceId, ImGuiDir_Right, 0.25f, nullptr, &dockspaceId);
+
+            ImGui::DockBuilderDockWindow("Main Window", dockspaceId);
+            ImGui::DockBuilderDockWindow("Hierarchy", hierarchyId);
+            ImGui::DockBuilderDockWindow("Inspector", inspectorId);
+            ImGui::DockBuilderFinish(dockspaceId);
+        }
+
+        ImGui::PopStyleVar(2);
+        ImGui::End();
+
+        ImGui::Begin("Hierarchy");
+        ImGui::End();
+
+        ImGui::Begin("Inspector");
+
+        ImGui::End();
+
+        // ImGui::ShowDemoWindow();
 
         renderer->OnFrameEnd();
 
