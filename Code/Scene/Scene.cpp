@@ -26,3 +26,18 @@ void Scene::OnRender()
         node->OnRender();
     }
 }
+
+int Scene::GetNumSimilarNames(const std::string &name)
+{
+    int names = 0;
+    for (int i = 0; i < m_Nodes.GetLength(); i++)
+    {
+        Ref<Node> node = m_Nodes.Get(i);
+        if (node->GetName() == name)
+        {
+            names++;
+        }
+    }
+
+    return names;
+}

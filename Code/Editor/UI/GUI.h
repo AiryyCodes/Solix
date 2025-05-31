@@ -1,0 +1,26 @@
+#pragma once
+
+#include "Scene/Scene.h"
+
+struct UIState
+{
+    Scene *scene;
+
+    Node *selectedNode;
+};
+
+class GUI
+{
+public:
+    GUI(UIState state)
+        : m_State(state) {}
+
+    void Init();
+    void Render();
+
+private:
+    void Hierarchy();
+
+private:
+    UIState m_State;
+};

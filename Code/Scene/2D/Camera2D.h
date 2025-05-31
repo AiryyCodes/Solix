@@ -2,9 +2,12 @@
 
 #include "Core/Math/Matrix.h"
 #include "Scene/2D/Node2D.h"
+#include "Scene/Node.h"
 
 class Camera2D : public Node2D
 {
+    NODE_CLASS(Camera2D, Node2D);
+
 public:
     virtual void OnInit() override {}
     virtual void OnUpdate() override {}

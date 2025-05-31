@@ -6,6 +6,8 @@
 
 class Node2D : public Node
 {
+    NODE_CLASS(Node2D, Node);
+
 public:
     virtual void OnInit() override {}
     virtual void OnUpdate() override {}
