@@ -6,7 +6,7 @@ struct UIState
 {
     Scene *scene;
 
-    Node *selectedNode;
+    Node *selectedNode = nullptr;
 };
 
 class GUI
@@ -20,6 +20,7 @@ public:
 
 private:
     void Hierarchy();
+    void Inspector();
 
 private:
     UIState m_State;

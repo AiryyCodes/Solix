@@ -21,7 +21,16 @@ public:
     Matrix4 GetTransformMatrix() const;
 
     const Vector2 &GetPosition() const { return m_Position; }
-    void SetPosition(Vector2 position) { m_Position = position; }
+    Vector2 &GetPosition() { return m_Position; }
+    void SetPosition(const Vector2 position) { m_Position = position; }
+
+    const Vector2 &GetScale() const { return m_Scale; }
+    Vector2 &GetScale() { return m_Scale; }
+    void SetScale(const Vector2 &scale) { m_Scale = scale; }
+
+    const float &GetRotation() const { return m_Rotation; }
+    float &GetRotation() { return m_Rotation; }
+    void SetRotation(float rotation) { m_Rotation = rotation; }
 
 private:
     Vector2 m_Position = {0.0f, 0.0f};

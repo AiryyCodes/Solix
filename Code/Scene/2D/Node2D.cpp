@@ -16,7 +16,7 @@ Matrix4 Node2D::GetTransformMatrix() const
 
     matrix.Translate(m_Position);
 
-    matrix.RotateZ(Math::ToRadians(m_Rotation));
+    matrix.RotateZ(Math::ToRadians(-m_Rotation));
 
     matrix.Scale(m_Scale);
 

@@ -1,12 +1,10 @@
 #pragma once
 
-#include "Core/Base.h"
-#include "Scene/Node.h"
+#include "Core/Math/Vector.h"
+
 #include <string>
 
 namespace Widget
 {
-void Button(const std::string &label);
-
-void NodeButton(Ref<Node> node);
+void Vector2Input(const std::string &label, Vector2 &vector);
 } // namespace Widget

@@ -1,5 +1,6 @@
 #include "Editor/UI/GUI.h"
-#include "Core/Logger.h"
+#include "Editor/UI/Widget.h"
+#include "Scene/2D/Node2D.h"
 #include "Scene/Scene.h"
 
 #include <imgui.h>
@@ -24,7 +25,10 @@ void GUI::Render()
     ImGuiDockNode *node = ImGui::DockBuilderGetNode(dockspaceId);
     bool has_layout = node && node->IsDockSpace();
 
-    ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+    ImGuiDockNodeFlags dockNodeFlags = ImGuiDockNodeFlags_PassthruCentralNode;
+    dockNodeFlags |= ImGuiDockNodeFlags_NoCloseButton;
+    dockNodeFlags |= ImGuiDockNodeFlags_NoWindowMenuButton;
+    ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockNodeFlags);
 
     if (!has_layout)
     {
@@ -41,19 +45,12 @@ void GUI::Render()
     ImGui::End();
 
     Hierarchy();
-
-    ImGui::Begin("Inspector");
-
-    ImGui::End();
-
-    // ImGui::ShowDemoWindow();
+    Inspector();
 }
 
 void GUI::Hierarchy()
 {
     Scene *scene = m_State.scene;
-
-    ;
 
     ImGui::Begin("Hierarchy");
     {
@@ -87,6 +84,41 @@ void GUI::Hierarchy()
 
             if (isSelected)
                 ImGui::PopStyleColor(1);
+        }
+    }
+    ImGui::End();
+}
+
+void GUI::Inspector()
+{
+    ImGui::Begin("Inspector");
+    {
+        if (!m_State.selectedNode)
+        {
+            ImGui::End();
+            return;
+        }
+
+        if (Node2D *node = dynamic_cast<Node2D *>(m_State.selectedNode))
+        {
+            Widget::Vector2Input("Position", node->GetPosition());
+            Widget::Vector2Input("Scale", node->GetScale());
+
+            ImGui::Columns(2, nullptr, false);
+            ImGui::SetColumnWidth(0, ImGui::GetWindowContentRegionMax().x * 0.35f);
+
+            ImGui::TextUnformatted("Rotation");
+
+            ImGui::NextColumn();
+
+            float fullWidth = ImGui::GetContentRegionAvail().x;
+            float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+            float inputWidth = (fullWidth + (spacing * 2));
+
+            ImGui::PushItemWidth(inputWidth);
+            ImGui::DragFloat("##Rotation", &node->GetRotation());
+
+            ImGui::Columns(1);
         }
     }
     ImGui::End();
