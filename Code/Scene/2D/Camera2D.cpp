@@ -1,6 +1,7 @@
 #include "Scene/2D/Camera2D.h"
-#include "Core/Application.h"
 #include "Core/Math/Matrix.h"
+#include "Core/Runtime.h"
+#include "Renderer/IRenderer.h"
 
 void Camera2D::Render()
 {
@@ -12,9 +13,9 @@ void Camera2D::Render()
 
 Matrix4 Camera2D::GetProjectionMatrix()
 {
-    Application &app = Application::Get();
+    Runtime &runtime = Runtime::Get();
 
-    float aspect = (float)app.GetWindow()->GetWidth() / (float)app.GetWindow()->GetHeight();
+    float aspect = (float)runtime.GetWindow()->GetWidth() / (float)runtime.GetWindow()->GetHeight();
     float height = 2.0f;
     float width = height * aspect;
 

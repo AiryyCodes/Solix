@@ -1,13 +1,12 @@
 #include "Renderer/Mesh.h"
-#include "Core/Application.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/Layout.h"
 
 Mesh::Mesh()
 {
-    Ref<IRenderer> renderer = Application::Get().GetRenderer();
+    IRenderer &renderer = IRenderer::Get();
 
-    m_VertexArray = renderer->CreateVertexArray();
+    m_VertexArray = renderer.CreateVertexArray();
     m_VertexArray->OnInit();
 }
 
@@ -23,11 +22,11 @@ void Mesh::Unbind() const
 
 void Mesh::SetVertices(List<Vector3> vertices)
 {
-    Ref<IRenderer> renderer = Application::Get().GetRenderer();
+    IRenderer &renderer = IRenderer::Get();
 
     m_VertexArray->Bind();
 
-    auto buffer = renderer->CreateArrayBuffer();
+    auto buffer = renderer.CreateArrayBuffer();
     buffer->OnInit(vertices.GetData(), vertices.GetSize());
 
     m_ArrayBuffers.Add(buffer);

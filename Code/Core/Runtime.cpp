@@ -1,26 +1,17 @@
-#include "Core/Application.h"
+#include "Core/Runtime.h"
 #include "Core/Base.h"
 #include "Core/Logger.h"
 #include "Renderer/OpenGL/OpenGLRenderer.h"
 #include "Renderer/Window.h"
 
-Ref<Application> Application::m_Instance = nullptr;
+#include <cstdlib>
 
-Ref<Application> Application::Start()
+Runtime *Runtime::m_Instance = nullptr;
+
+void Runtime::Init()
 {
-    if (m_Instance)
-    {
-        return m_Instance;
-    }
+    m_Instance = this;
 
-    m_Instance = CreateRef<Application>();
-    m_Instance->OnInit();
-
-    return m_Instance;
-}
-
-void Application::OnInit()
-{
     LOG_INFO("Initializing renderer...");
 
     m_Renderer = CreateScope<OpenGLRenderer>();
@@ -34,7 +25,7 @@ void Application::OnInit()
 
     LOG_INFO("Creating window...");
 
-    m_Window = CreateScope<Window>(1280, 720, "Solix Engine");
+    m_Window = CreateRef<Window>(1280, 720, "Solix Engine");
     error = m_Window->OnInit();
     if (error.HasValue())
     {
@@ -54,12 +45,49 @@ void Application::OnInit()
     }
 
     LOG_INFO("Successfully initialized renderer!")
+
+    m_Scene = CreateRef<Scene>();
+
+    OnInit();
 }
 
-void Application::OnShutdown()
+void Runtime::Update()
 {
-    if (m_Renderer)
+    m_Renderer->Clear();
+    m_Renderer->ClearColor(Color(0, 0, 0, 255));
+    m_Renderer->SetViewport(m_Window->GetWidth(), m_Window->GetHeight(), 0, 0);
+
+    m_Renderer->OnFrameBegin();
+
+    GetScene()->OnUpdate();
+
+    OnUpdate();
+
+    GetRenderer()->GetMainShader()->Bind();
+    GetScene()->OnRender();
+
+    GetRenderer()->OnFrameEnd();
+
+    GetWindow()->PollEvents();
+    GetWindow()->SwapBuffers();
+}
+
+void Runtime::Shutdown()
+{
+    m_Renderer->OnShutdown();
+}
+
+int main(int argc, char **argv)
+{
+    Ref<Runtime> runtime = StartRuntime();
+    runtime->Init();
+
+    while (!runtime->GetWindow()->IsClosing())
     {
-        m_Renderer->OnShutdown();
+        runtime->Update();
     }
+
+    runtime->Shutdown();
+
+    return EXIT_SUCCESS;
 }

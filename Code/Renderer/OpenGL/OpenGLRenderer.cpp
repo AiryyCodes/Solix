@@ -30,6 +30,9 @@ Optional<Error> OpenGLRenderer::OnPreInit()
 
     LOG_INFO("Successfully initialized GLFW!");
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
     return Optional<Error>::Empty();
 }
 

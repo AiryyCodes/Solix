@@ -25,6 +25,8 @@ public:
     virtual int GetHeight() const override;
     virtual void SetHeight(int height) override;
 
+    GLFWwindow *GetGLFWWindow() const { return m_Window; }
+
 private:
     GLFWwindow *m_Window;
 
