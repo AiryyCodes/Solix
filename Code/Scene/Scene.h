@@ -1,9 +1,12 @@
 #pragma once
 
+#include "Core/Assert.h"
 #include "Core/Base.h"
 #include "Core/List.h"
 #include "Scene/Node.h"
+
 #include <string>
+#include <type_traits>
 
 class Scene
 {
@@ -15,7 +18,7 @@ public:
     template <typename T>
     Ref<T> AddNode(const std::string &name)
     {
-        // TODO: Assert the template paremeter is derived from Node
+        STATIC_ASSERT((std::is_base_of_v<Node, T>), "T is not derived from Node");
 
         std::string newName = name;
         int numSimilarNames = GetNumSimilarNames(name);

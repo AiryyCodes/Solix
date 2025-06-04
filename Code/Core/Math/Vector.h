@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Assert.h"
 #include <cmath>
 #include <cstddef>
 
@@ -70,7 +71,11 @@ public:
     Derived Normalized() const
     {
         float length = GetLength();
-        // TODO: Assert length != 0.0f
+        if (length == 0.0f)
+        {
+            // Return a zeroed out vector
+            return Derived();
+        }
 
         Derived result;
         for (int i = 0; i < N; i++)
