@@ -2,20 +2,17 @@
 #include "Core/Base.h"
 #include "Core/List.h"
 #include "Core/Logger.h"
-#include "Core/Math/Vector.h"
 #include "Editor/UI/GUI.h"
 #include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
-#include "Renderer/OpenGL/OpenGLRenderer.h"
-#include "Renderer/Window.h"
 #include "Scene/2D/Camera2D.h"
 #include "Scene/2D/MeshRenderer2D.h"
+#include "Scene/3D/Camera3D.h"
 #include "Scene/Scene.h"
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
-#include <memory>
 
 static List<Vector3> QUAD_VERTICES = {
     // Triangle 1
@@ -43,7 +40,8 @@ void EditorRuntime::OnInit()
     mesh.SetVertices(QUAD_VERTICES);
     mesh.SetLayout(layout);
 
-    Ref<Camera2D> camera = GetScene()->AddNode<Camera2D>("Camera2D");
+    Ref<Camera3D> camera = GetScene()->AddNode<Camera3D>("Camera3D");
+    camera->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
 
     Ref<MeshRenderer2D> meshRenderer = GetScene()->AddNode<MeshRenderer2D>("MeshRenderer2D");
     meshRenderer->SetMesh(mesh);

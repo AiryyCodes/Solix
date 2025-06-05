@@ -13,6 +13,17 @@ void Matrix4::Translate(const Vector2 &translation)
     *this = (*this) * matrix;
 }
 
+void Matrix4::Translate(const Vector3 &translation)
+{
+    Matrix4 matrix = Matrix4::Identity();
+
+    matrix.m_Column[3].x = translation.x;
+    matrix.m_Column[3].y = translation.y;
+    matrix.m_Column[3].z = translation.z;
+
+    *this = (*this) * matrix;
+}
+
 void Matrix4::Scale(const Vector2 &scale)
 {
     Matrix4 matrix = Matrix4::Identity();
@@ -109,7 +120,7 @@ Matrix4 Matrix4::Identity()
     return matrix;
 }
 
-Matrix4 Matrix4::Orthographic(float left, float right, float top, float bottom, float far, float near)
+Matrix4 Matrix4::Orthographic(float left, float right, float top, float bottom, float near, float far)
 {
     Matrix4 matrix = Matrix4::Identity();
 
@@ -120,6 +131,21 @@ Matrix4 Matrix4::Orthographic(float left, float right, float top, float bottom, 
     matrix.m_Column[3].x = -(right + left) / (right - left);
     matrix.m_Column[3].y = -(top + bottom) / (top - bottom);
     matrix.m_Column[3].z = -(far + near) / (far - near);
+
+    return matrix;
+}
+
+Matrix4 Matrix4::Perspective(float fov, float aspect, float near, float far)
+{
+    float f = 1.0f / tan(fov / 2.0f);
+
+    Matrix4 matrix = {}; // Zero initialize
+
+    matrix.m_Column[0].x = f / aspect;
+    matrix.m_Column[1].y = f;
+    matrix.m_Column[2].z = (far + near) / (near - far);
+    matrix.m_Column[2].w = -1.0f;
+    matrix.m_Column[3].z = (2.0f * far * near) / (near - far);
 
     return matrix;
 }
@@ -149,6 +175,29 @@ Matrix4 Matrix4::LookAt(Vector2 eye, Vector2 target)
     matrix.m_Column[3].y = -Vector2(0.0f, 0.0f).Dot(eye);
     matrix.m_Column[3].z = forward.Dot(eye);
     matrix.m_Column[3].w = 1.0f;
+
+    return matrix;
+}
+
+Matrix4 Matrix4::LookAt(Vector3 eye, Vector3 target, Vector3 up)
+{
+    Vector3 f = (target - eye).Normalized(); // Forward
+    Vector3 r = f.Cross(up).Normalized();    // Right
+    Vector3 u = r.Cross(f);                  // Up (orthogonalized)
+
+    Matrix4 matrix;
+
+    // Orientation
+    matrix.m_Column[0] = Vector4(r.x, u.x, -f.x, 0.0f);
+    matrix.m_Column[1] = Vector4(r.y, u.y, -f.y, 0.0f);
+    matrix.m_Column[2] = Vector4(r.z, u.z, -f.z, 0.0f);
+
+    // Translation
+    matrix.m_Column[3] = Vector4(
+        -r.Dot(eye),
+        -u.Dot(eye),
+        f.Dot(eye),
+        1.0f);
 
     return matrix;
 }
