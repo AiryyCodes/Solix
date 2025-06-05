@@ -4,6 +4,7 @@ void Scene::OnInit()
 {
     for (const auto &node : m_Nodes)
     {
+        node->InitBase();
         node->Init();
         node->OnInit();
     }
@@ -13,6 +14,7 @@ void Scene::OnUpdate()
 {
     for (const auto &node : m_Nodes)
     {
+        node->UpdateBase();
         node->Update();
         node->OnUpdate();
     }
@@ -22,6 +24,7 @@ void Scene::OnRender()
 {
     for (const auto &node : m_Nodes)
     {
+        node->RenderBase();
         node->Render();
         node->OnRender();
     }

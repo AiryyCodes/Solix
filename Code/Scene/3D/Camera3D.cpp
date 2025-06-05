@@ -1,5 +1,6 @@
 #include "Scene/3D/Camera3D.h"
 #include "Core/Base.h"
+#include "Core/Math/Math.h"
 #include "Core/Math/Vector3.h"
 #include "Core/Runtime.h"
 #include "Renderer/IRenderer.h"
@@ -19,7 +20,7 @@ Matrix4 Camera3D::GetProjectionMatrix()
 
     float aspect = (float)runtime.GetWindow()->GetWidth() / (float)runtime.GetWindow()->GetHeight();
 
-    return Matrix4::Perspective(m_Fov, aspect, m_Near, m_Far);
+    return Matrix4::Perspective(Math::ToRadians(m_Fov), aspect, m_Near, m_Far);
 }
 
 Matrix4 Camera3D::GetViewMatrix()

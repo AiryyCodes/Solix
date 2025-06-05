@@ -13,6 +13,8 @@ public:
 
     virtual void Render() override;
 
+    bool ShouldRender() const override { return false; }
+
     Matrix4 GetProjectionMatrix();
     Matrix4 GetViewMatrix();
 

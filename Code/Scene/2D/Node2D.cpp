@@ -1,4 +1,5 @@
 #include "Scene/2D/Node2D.h"
+#include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
 #include "Renderer/IRenderer.h"
@@ -6,6 +7,9 @@
 
 void Node2D::Render()
 {
+    if (!ShouldRender())
+        return;
+
     Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
     mainShader->SetUniform("u_Transform", GetTransformMatrix());
 }

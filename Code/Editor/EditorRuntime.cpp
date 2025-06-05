@@ -41,7 +41,7 @@ void EditorRuntime::OnInit()
     mesh.SetLayout(layout);
 
     Ref<Camera3D> camera = GetScene()->AddNode<Camera3D>("Camera3D");
-    camera->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+    camera->SetPosition(Vector3(0.0f, 0.0f, 2.5f));
 
     Ref<MeshRenderer2D> meshRenderer = GetScene()->AddNode<MeshRenderer2D>("MeshRenderer2D");
     meshRenderer->SetMesh(mesh);

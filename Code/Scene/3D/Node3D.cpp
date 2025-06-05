@@ -1,14 +1,19 @@
 #include "Scene/3D/Node3D.h"
 #include "Core/Base.h"
+#include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Vector3.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
+#include "Scene/3D/Camera3D.h"
 
 #include <cmath>
 
 void Node3D::Render()
 {
+    if (!ShouldRender())
+        return;
+
     Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
     mainShader->SetUniform("u_Transform", GetTransformMatrix());
 }

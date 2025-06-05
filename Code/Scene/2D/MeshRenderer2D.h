@@ -13,7 +13,7 @@ public:
     virtual void OnUpdate() override {}
     virtual void OnRender() override {}
 
-    void Render() override;
+    virtual void Render() override;
 
     void SetMesh(const Mesh &mesh) { m_Mesh = mesh; }
 
