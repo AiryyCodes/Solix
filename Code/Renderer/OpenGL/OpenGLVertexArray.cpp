@@ -1,10 +1,9 @@
 #include "Renderer/OpenGL/OpenGLVertexArray.h"
-#include "Core/Logger.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
+#include "Core/Assert.h"
 #include "Renderer/Layout.h"
 
-#include <cstdint>
 #include <glad/gl.h>
 
 OpenGLVertexArray::~OpenGLVertexArray()
@@ -34,6 +33,11 @@ void OpenGLVertexArray::SetLayout(const BufferLayout &layout)
     for (unsigned int i = 0; i < layout.GetElements().GetLength(); i++)
     {
         const BufferElement &element = layout.GetElements().Get(i);
+
+        // Should not be possible
+        ASSERT(layout.GetComponents(element.GetType()) != 0, "Invalid element type (Components: 0)");
+        ASSERT(GetGLType(element.GetType()) != GL_FALSE, "Invalid OpenGL element type");
+
         glEnableVertexAttribArray(i);
         glVertexAttribPointer(
             i,
@@ -78,4 +82,6 @@ unsigned int OpenGLVertexArray::GetGLType(BufferDataType type) const
     case BufferDataType::Mat4:
         return GL_FLOAT;
     };
+
+    return GL_FALSE;
 }

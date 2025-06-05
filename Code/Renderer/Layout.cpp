@@ -42,6 +42,8 @@ unsigned int BufferLayout::GetComponents(BufferDataType type) const
     case BufferDataType::Mat4:
         return 4;
     };
+
+    return 0;
 }
 
 unsigned int BufferLayout::GetSize(BufferDataType type) const
@@ -75,4 +77,6 @@ unsigned int BufferLayout::GetSize(BufferDataType type) const
     case BufferDataType::Mat4:
         return 4 * 4 * 4;
     };
+
+    return 0;
 }
