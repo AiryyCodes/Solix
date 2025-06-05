@@ -26,7 +26,7 @@ void Widget::Vector2Input(const std::string &label, Vector2 &vector)
     ImGui::TextUnformatted("X");
     ImGui::SameLine(0.0f, spacing * 2);
     ImGui::PushItemWidth(inputWidth);
-    ImGui::DragFloat("##X", &vector.x(), 0.1f);
+    ImGui::DragFloat("##X", &vector.x, 0.1f);
     ImGui::PopItemWidth();
 
     ImGui::SameLine(0.0f, spacing * 2);
@@ -36,7 +36,7 @@ void Widget::Vector2Input(const std::string &label, Vector2 &vector)
     ImGui::TextUnformatted("Y");
     ImGui::SameLine(0.0f, spacing * 2);
     ImGui::PushItemWidth(inputWidth);
-    ImGui::DragFloat("##Y", &vector.y(), 0.1f);
+    ImGui::DragFloat("##Y", &vector.y, 0.1f);
     ImGui::PopItemWidth();
 
     ImGui::Columns(1);
