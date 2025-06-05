@@ -4,7 +4,7 @@
 #include <string>
 #include <variant>
 
-class Error
+class [[nodiscard]] Error
 {
 public:
     Error(const std::string &message)
@@ -21,7 +21,7 @@ private:
 };
 
 template <typename R, typename E = Error>
-class Result
+class [[nodiscard]] Result
 {
 public:
     Result(R result)
