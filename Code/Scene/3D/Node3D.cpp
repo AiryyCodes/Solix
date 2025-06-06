@@ -3,11 +3,13 @@
 #include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Vector3.h"
+#include "Editor/UI/Widget.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 #include "Scene/3D/Camera3D.h"
 
 #include <cmath>
+#include <imgui.h>
 
 void Node3D::Render()
 {
@@ -16,6 +18,22 @@ void Node3D::Render()
 
     Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
     mainShader->SetUniform("u_Transform", GetTransformMatrix());
+}
+
+void Node3D::InspectorGUI()
+{
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+    ImGui::PushID("TransformComponent");
+    if (ImGui::TreeNodeEx("Transform", flags))
+    {
+        Widget::Vector3Input("Position", GetPosition());
+        Widget::Vector3Input("Scale", GetScale());
+        Widget::Vector3Input("Rotation", GetRotation());
+
+        ImGui::TreePop();
+    }
+    ImGui::PopID();
 }
 
 Matrix4 Node3D::GetTransformMatrix() const
@@ -35,15 +53,10 @@ Matrix4 Node3D::GetTransformMatrix() const
 
 Vector3 Node3D::GetUp() const
 {
-    float yaw = Math::ToRadians(m_Rotation.y);
-    float pitch = Math::ToRadians(m_Rotation.x);
+    Vector3 front = GetFront();
+    Vector3 right = GetRight();
 
-    Vector3 up;
-    up.x = sin(pitch) * sin(yaw);
-    up.y = cos(pitch);
-    up.z = sin(pitch) * cos(yaw);
-
-    return up;
+    return right.Cross(front).Normalized();
 }
 
 Vector3 Node3D::GetFront() const
@@ -61,13 +74,13 @@ Vector3 Node3D::GetFront() const
 
 Vector3 Node3D::GetRight() const
 {
-    float yaw = Math::ToRadians(m_Rotation.y);
-    float pitch = Math::ToRadians(m_Rotation.x);
+    Vector3 front = GetFront();
+    Vector3 worldUp(0.0f, 1.0f, 0.0f);
+    Vector3 right = front.Cross(worldUp).Normalized();
 
-    Vector3 right;
-    right.x = cos(yaw);
-    right.y = 0;
-    right.z = -sin(yaw);
+    // Apply roll around the front vector
+    float roll = Math::ToRadians(m_Rotation.z);
+    Matrix3 rollMatrix = Matrix3::RotationAxis(front, roll);
 
-    return right;
+    return (rollMatrix * right).Normalized();
 }

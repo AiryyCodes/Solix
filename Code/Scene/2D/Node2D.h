@@ -17,6 +17,8 @@ public:
     virtual void Update() override {}
     virtual void Render() override;
 
+    virtual void InspectorGUI() override;
+
     Matrix4 GetTransformMatrix() const;
 
     const Vector2 &GetPosition() const { return m_Position; }

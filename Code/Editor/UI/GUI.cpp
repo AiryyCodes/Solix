@@ -99,35 +99,10 @@ void GUI::Inspector()
             return;
         }
 
-        if (Node2D *node = dynamic_cast<Node2D *>(m_State.selectedNode))
-        {
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
-
-            ImGui::PushID("TransformComponent");
-            if (ImGui::TreeNodeEx("Transform", flags))
-            {
-                Widget::Vector2Input("Position", node->GetPosition());
-                Widget::Vector2Input("Scale", node->GetScale());
-
-                ImGui::Columns(2, nullptr, false);
-                ImGui::SetColumnWidth(0, ImGui::GetWindowContentRegionMax().x * 0.35f);
-
-                ImGui::TextUnformatted("Rotation");
-
-                ImGui::NextColumn();
-
-                float fullWidth = ImGui::GetContentRegionAvail().x;
-                float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
-                float inputWidth = (fullWidth + (spacing * 2));
-
-                ImGui::PushItemWidth(inputWidth);
-                ImGui::DragFloat("##Rotation", &node->GetRotation());
-
-                ImGui::Columns(1);
-                ImGui::TreePop();
-            }
-            ImGui::PopID();
-        }
+        Node *node = m_State.selectedNode;
+        node->InspectorGUIBase();
+        node->InspectorGUI();
+        node->OnInspectorGUI();
     }
     ImGui::End();
 }

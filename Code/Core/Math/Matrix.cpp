@@ -150,7 +150,7 @@ Matrix4 Matrix4::Perspective(float fov, float aspect, float near, float far)
     return matrix;
 }
 
-Matrix4 Matrix4::LookAt(Vector2 eye, Vector2 target)
+Matrix4 Matrix4::LookAt(const Vector2 &eye, const Vector2 &target)
 {
     Vector2 forward = (target - eye).Normalized();
     Vector2 right = Vector2(-forward.y, forward.x);
@@ -179,7 +179,7 @@ Matrix4 Matrix4::LookAt(Vector2 eye, Vector2 target)
     return matrix;
 }
 
-Matrix4 Matrix4::LookAt(Vector3 eye, Vector3 target, Vector3 up)
+Matrix4 Matrix4::LookAt(const Vector3 &eye, const Vector3 &target, const Vector3 &up)
 {
     Vector3 f = (target - eye).Normalized(); // Forward
     Vector3 r = f.Cross(up).Normalized();    // Right
@@ -202,6 +202,33 @@ Matrix4 Matrix4::LookAt(Vector3 eye, Vector3 target, Vector3 up)
     return matrix;
 }
 
+Matrix4 Matrix4::LookAt(const Vector3 &position, const Vector3 &right, const Vector3 &up, const Vector3 &front)
+{
+    Matrix4 matrix;
+
+    matrix.m_Column[0].x = right.x;
+    matrix.m_Column[0].y = up.x;
+    matrix.m_Column[0].z = -front.x;
+    matrix.m_Column[0].w = 0.0f;
+
+    matrix.m_Column[1].x = right.y;
+    matrix.m_Column[1].y = up.y;
+    matrix.m_Column[1].z = -front.y;
+    matrix.m_Column[1].w = 0.0f;
+
+    matrix.m_Column[2].x = right.z;
+    matrix.m_Column[2].y = up.z;
+    matrix.m_Column[2].z = -front.z;
+    matrix.m_Column[2].w = 0.0f;
+
+    matrix.m_Column[3].x = -right.Dot(position);
+    matrix.m_Column[3].y = -up.Dot(position);
+    matrix.m_Column[3].z = front.Dot(position);
+    matrix.m_Column[3].w = 1.0f;
+
+    return matrix;
+}
+
 Matrix4 Matrix4::operator*(const Matrix4 &other) const
 {
     Matrix4 result;
@@ -218,4 +245,41 @@ Matrix4 Matrix4::operator*(const Matrix4 &other) const
         result.m_Column[col] = newCol;
     }
     return result;
+}
+
+Matrix3 Matrix3::RotationAxis(const Vector3 &axis, float angle)
+{
+    Vector3 a = axis.Normalized();
+    float x = a.x, y = a.y, z = a.z;
+
+    float c = cos(angle);
+    float s = sin(angle);
+    float t = 1.0f - c;
+
+    Matrix3 matrix;
+
+    // First column (X axis)
+    matrix.m_Column[0].x = t * x * x + c;
+    matrix.m_Column[0].y = t * x * y + s * z;
+    matrix.m_Column[0].z = t * x * z - s * y;
+
+    // Second column (Y axis)
+    matrix.m_Column[1].x = t * x * y - s * z;
+    matrix.m_Column[1].y = t * y * y + c;
+    matrix.m_Column[1].z = t * y * z + s * x;
+
+    // Third column (Z axis)
+    matrix.m_Column[2].x = t * x * z + s * y;
+    matrix.m_Column[2].y = t * y * z - s * x;
+    matrix.m_Column[2].z = t * z * z + c;
+
+    return matrix;
+}
+
+Vector3 Matrix3::operator*(const Vector3 &vector)
+{
+    return Vector3(
+        m_Column[0].x * vector.x + m_Column[1].x * vector.y + m_Column[2].x * vector.z,
+        m_Column[0].y * vector.x + m_Column[1].y * vector.y + m_Column[2].y * vector.z,
+        m_Column[0].z * vector.x + m_Column[1].z * vector.y + m_Column[2].z * vector.z);
 }

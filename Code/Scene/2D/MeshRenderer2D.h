@@ -14,6 +14,7 @@ public:
     virtual void OnRender() override {}
 
     virtual void Render() override;
+    virtual void InspectorGUI() override {}
 
     void SetMesh(const Mesh &mesh) { m_Mesh = mesh; }
 
