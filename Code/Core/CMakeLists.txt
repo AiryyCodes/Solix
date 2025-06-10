@@ -3,6 +3,7 @@ project(Core)
 file(GLOB_RECURSE CORE_SOURCES
     "**.cpp"
     "../Scene/**.cpp"
+    "../Input/**.cpp"
 )
 
 add_library(${PROJECT_NAME} ${CORE_SOURCES})
