@@ -2,7 +2,7 @@
 
 #include "Core/Base.h"
 #include "Core/Runtime.h"
-#include "Editor/UI/GUI.h"
+#include "UI/GUI.h"
 
 class EditorRuntime : public Runtime
 {

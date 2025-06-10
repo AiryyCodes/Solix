@@ -2,7 +2,7 @@
 #include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
-#include "Editor/UI/Widget.h"
+#include "UI/Widget.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 

@@ -1,5 +1,5 @@
-#include "Editor/UI/GUI.h"
-#include "Editor/UI/Widget.h"
+#include "UI/GUI.h"
+#include "UI/Widget.h"
 #include "Scene/2D/Node2D.h"
 #include "Scene/Scene.h"
 

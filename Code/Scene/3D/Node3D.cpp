@@ -3,7 +3,7 @@
 #include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Vector3.h"
-#include "Editor/UI/Widget.h"
+#include "UI/Widget.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 #include "Scene/3D/Camera3D.h"

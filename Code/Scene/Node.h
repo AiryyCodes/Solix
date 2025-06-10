@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Logger.h"
-
 #include <string>
 
 #define NODE_CLASS(NodeClass, BaseClass)                    \
@@ -50,7 +48,7 @@ public:
 
     virtual bool ShouldRender() const { return true; }
 
-    virtual std::string GetName() const { return m_Name; }
+    virtual const std::string &GetName() const { return m_Name; }
 
 private:
     std::string m_Name;

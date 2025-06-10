@@ -2,7 +2,7 @@
 #include "Core/Base.h"
 #include "Core/List.h"
 #include "Core/Logger.h"
-#include "Editor/UI/GUI.h"
+#include "UI/GUI.h"
 #include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
 #include "Scene/2D/Camera2D.h"

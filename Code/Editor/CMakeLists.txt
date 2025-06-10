@@ -10,5 +10,5 @@ add_custom_target(link_target ALL
 add_executable(${PROJECT_NAME} ${EDITOR_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Core Renderer)
+target_link_libraries(${PROJECT_NAME} PUBLIC Core Renderer UI)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
