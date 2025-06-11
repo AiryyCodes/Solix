@@ -17,7 +17,7 @@ void Node3D::Render()
         return;
 
     Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
-    mainShader->SetUniform("u_Transform", GetTransformMatrix());
+    mainShader->SetUniform("u_Transform", GetGlobalTransform());
 }
 
 void Node3D::InspectorGUI()
@@ -49,6 +49,25 @@ Matrix4 Node3D::GetTransformMatrix() const
     matrix.Scale(m_Scale);
 
     return matrix;
+}
+
+Matrix4 Node3D::GetGlobalTransform()
+{
+    if (!IsDirty())
+        return m_GlobalTransform;
+
+    if (GetParent())
+    {
+
+        m_GlobalTransform = GetParent()->GetGlobalTransform() * GetTransformMatrix();
+    }
+    else
+    {
+        m_GlobalTransform = GetTransformMatrix();
+    }
+
+    SetDirty(false);
+    return m_GlobalTransform;
 }
 
 Vector3 Node3D::GetUp() const
@@ -83,4 +102,22 @@ Vector3 Node3D::GetRight() const
     Matrix3 rollMatrix = Matrix3::RotationAxis(front, roll);
 
     return (rollMatrix * right).Normalized();
+}
+
+void Node3D::SetPosition(const Vector3 &position)
+{
+    m_Position = position;
+    MarkDirty();
+}
+
+void Node3D::SetScale(const Vector3 &scale)
+{
+    m_Scale = scale;
+    MarkDirty();
+}
+
+void Node3D::SetRotation(const Vector3 &rotation)
+{
+    m_Rotation = rotation;
+    MarkDirty();
 }

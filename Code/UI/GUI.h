@@ -20,6 +20,8 @@ public:
 
 private:
     void Hierarchy();
+    void HierarchyChildren(Ref<Node> node);
+
     void Inspector();
 
 private:

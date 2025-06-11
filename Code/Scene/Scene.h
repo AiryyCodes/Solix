@@ -28,6 +28,7 @@ public:
         }
 
         Ref<T> node = CreateRef<T>(newName);
+        node->SetParent(nullptr);
         m_Nodes.Add(node);
 
         return node;
@@ -36,6 +37,10 @@ public:
     List<Ref<Node>> GetNodes() const { return m_Nodes; }
 
 private:
+    void Init(Ref<Node> node);
+    void Update(Ref<Node> node);
+    void Render(Ref<Node> node);
+
     int GetNumSimilarNames(const std::string &name);
 
 private:

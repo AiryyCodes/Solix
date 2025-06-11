@@ -56,7 +56,12 @@ void GUI::Hierarchy()
     {
         for (const auto &node : scene->GetNodes())
         {
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
+            bool hasChildren = node->GetChildren().GetLength() > 0;
+
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
+            if (!hasChildren)
+                flags |= ImGuiTreeNodeFlags_Leaf;
+
             if (m_State.selectedNode == node.get())
                 flags |= ImGuiTreeNodeFlags_Selected;
 
@@ -77,6 +82,8 @@ void GUI::Hierarchy()
 
             if (open)
             {
+                HierarchyChildren(node);
+
                 ImGui::TreePop();
             }
 
@@ -87,6 +94,47 @@ void GUI::Hierarchy()
         }
     }
     ImGui::End();
+}
+
+void GUI::HierarchyChildren(Ref<Node> node)
+{
+    for (const auto &child : node->GetChildren())
+    {
+        bool hasChildren = child->GetChildren().GetLength() > 0;
+
+        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
+        if (!hasChildren)
+            flags |= ImGuiTreeNodeFlags_Leaf;
+
+        if (m_State.selectedNode == child.get())
+            flags |= ImGuiTreeNodeFlags_Selected;
+
+        bool isSelected = m_State.selectedNode == child.get();
+        if (isSelected)
+        {
+            ImGui::PushStyleColor(ImGuiCol_Header, ImGui::GetColorU32(ImGuiCol_ButtonActive));
+        }
+
+        ImGui::PushID(child->GetName().c_str());
+
+        bool open = ImGui::TreeNodeEx(child->GetName().c_str(), flags);
+
+        if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+        {
+            m_State.selectedNode = child.get();
+        }
+
+        if (open)
+        {
+            HierarchyChildren(child);
+            ImGui::TreePop();
+        }
+
+        ImGui::PopID();
+
+        if (isSelected)
+            ImGui::PopStyleColor(1);
+    }
 }
 
 void GUI::Inspector()

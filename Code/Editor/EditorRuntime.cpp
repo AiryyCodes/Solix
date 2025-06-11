@@ -45,8 +45,9 @@ void EditorRuntime::OnInit()
 
     Ref<MeshRenderer2D> meshRenderer = GetScene()->AddNode<MeshRenderer2D>("MeshRenderer2D");
     meshRenderer->SetMesh(mesh);
+    meshRenderer->SetPosition(Vector2(0.0f, 0.0f));
 
-    Ref<MeshRenderer2D> meshRenderer2 = GetScene()->AddNode<MeshRenderer2D>("MeshRenderer2D");
+    Ref<MeshRenderer2D> meshRenderer2 = meshRenderer->AddChild<MeshRenderer2D>("MeshRenderer2D (Child)");
     meshRenderer2->SetMesh(mesh);
     meshRenderer2->SetPosition(Vector2(1.0f, 1.0f));
 

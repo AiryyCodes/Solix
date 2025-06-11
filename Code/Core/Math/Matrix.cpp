@@ -283,3 +283,14 @@ Vector3 Matrix3::operator*(const Vector3 &vector)
         m_Column[0].y * vector.x + m_Column[1].y * vector.y + m_Column[2].y * vector.z,
         m_Column[0].z * vector.x + m_Column[1].z * vector.y + m_Column[2].z * vector.z);
 }
+
+Matrix4 Matrix4::operator=(const Matrix4 &other)
+{
+    Matrix4 matrix;
+    m_Column[0] = other.m_Column[0];
+    m_Column[1] = other.m_Column[1];
+    m_Column[2] = other.m_Column[2];
+    m_Column[3] = other.m_Column[3];
+
+    return *this;
+}

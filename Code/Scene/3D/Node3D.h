@@ -20,6 +20,7 @@ public:
     virtual void InspectorGUI() override;
 
     Matrix4 GetTransformMatrix() const;
+    Matrix4 GetGlobalTransform() override;
 
     Vector3 GetUp() const;
     Vector3 GetFront() const;
@@ -27,18 +28,20 @@ public:
 
     const Vector3 &GetPosition() const { return m_Position; }
     Vector3 &GetPosition() { return m_Position; }
-    void SetPosition(const Vector3 position) { m_Position = position; }
+    void SetPosition(const Vector3 &position);
 
     const Vector3 &GetScale() const { return m_Scale; }
     Vector3 &GetScale() { return m_Scale; }
-    void SetScale(const Vector3 &scale) { m_Scale = scale; }
+    void SetScale(const Vector3 &scale);
 
     const Vector3 &GetRotation() const { return m_Rotation; }
     Vector3 &GetRotation() { return m_Rotation; }
-    void SetRotation(Vector3 rotation) { m_Rotation = rotation; }
+    void SetRotation(const Vector3 &rotation);
 
 private:
     Vector3 m_Position = {0.0f, 0.0f, 0.0f};
     Vector3 m_Scale = {1.0f, 1.0f, 1.0f};
     Vector3 m_Rotation = {0.0f, 0.0f, 0.0f};
+
+    Matrix4 m_GlobalTransform;
 };

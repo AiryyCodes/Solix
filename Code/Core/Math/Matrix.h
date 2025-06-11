@@ -27,6 +27,7 @@ public:
     static Matrix4 LookAt(const Vector3 &position, const Vector3 &right, const Vector3 &up, const Vector3 &front);
 
     Matrix4 operator*(const Matrix4 &other) const;
+    Matrix4 operator=(const Matrix4 &other);
 
 public:
     Vector4 m_Column[4];

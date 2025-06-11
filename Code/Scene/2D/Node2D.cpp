@@ -2,6 +2,7 @@
 #include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
+#include "Core/Math/Vector2.h"
 #include "UI/Widget.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
@@ -14,7 +15,7 @@ void Node2D::Render()
         return;
 
     Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
-    mainShader->SetUniform("u_Transform", GetTransformMatrix());
+    mainShader->SetUniform("u_Transform", GetGlobalTransform());
 }
 
 void Node2D::InspectorGUI()
@@ -46,6 +47,8 @@ void Node2D::InspectorGUI()
         ImGui::TreePop();
     }
     ImGui::PopID();
+
+    MarkDirty();
 }
 
 Matrix4 Node2D::GetTransformMatrix() const
@@ -59,4 +62,40 @@ Matrix4 Node2D::GetTransformMatrix() const
     matrix.Scale(m_Scale);
 
     return matrix;
+}
+
+Matrix4 Node2D::GetGlobalTransform()
+{
+    if (!IsDirty())
+        return m_GlobalTransform;
+
+    if (GetParent())
+    {
+        m_GlobalTransform = GetParent()->GetGlobalTransform() * GetTransformMatrix();
+    }
+    else
+    {
+        m_GlobalTransform = GetTransformMatrix();
+    }
+
+    SetDirty(false);
+    return m_GlobalTransform;
+}
+
+void Node2D::SetPosition(const Vector2 &position)
+{
+    m_Position = position;
+    MarkDirty();
+}
+
+void Node2D::SetScale(const Vector2 &scale)
+{
+    m_Scale = scale;
+    MarkDirty();
+}
+
+void Node2D::SetRotation(float rotation)
+{
+    m_Rotation = rotation;
+    MarkDirty();
 }
