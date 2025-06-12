@@ -22,21 +22,30 @@ public:
     Matrix4 GetTransformMatrix() const;
     Matrix4 GetGlobalTransform() override;
 
-    Vector3 GetUp() const;
-    Vector3 GetFront() const;
-    Vector3 GetRight() const;
+    Vector3 GetUp();
+    Vector3 GetFront();
+    Vector3 GetRight();
 
     const Vector3 &GetPosition() const { return m_Position; }
     Vector3 &GetPosition() { return m_Position; }
+    Vector3 GetGlobalPosition();
+
     void SetPosition(const Vector3 &position);
 
     const Vector3 &GetScale() const { return m_Scale; }
     Vector3 &GetScale() { return m_Scale; }
+    Vector3 GetGlobalScale();
+
     void SetScale(const Vector3 &scale);
 
     const Vector3 &GetRotation() const { return m_Rotation; }
     Vector3 &GetRotation() { return m_Rotation; }
+    Vector3 GetGlobalRotation();
+
     void SetRotation(const Vector3 &rotation);
+
+private:
+    Matrix3 GetRotationMatrix(const Matrix4 &matrix);
 
 private:
     Vector3 m_Position = {0.0f, 0.0f, 0.0f};

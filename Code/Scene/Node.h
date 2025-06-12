@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Core/Base.h"
+#include "Core/Assert.h"
 #include "Core/List.h"
 #include "Core/Math/Matrix.h"
 
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -56,7 +58,19 @@ public:
     void AddChild(Ref<Node> node)
     {
         node->SetParent(this);
-        m_Children.Add(std::move(node));
+        m_Children.Add(node);
+    }
+
+    template <typename T>
+    T *GetChild(const std::string &name)
+    {
+        for (const auto &child : m_Children)
+        {
+            if (auto derived = std::dynamic_pointer_cast<T>(child))
+                return &derived;
+        }
+
+        return nullptr;
     }
 
     Node *GetParent() { return m_Parent; }

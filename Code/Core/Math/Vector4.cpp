@@ -1,4 +1,5 @@
 #include "Core/Math/Vector4.h"
+#include "Core/Math/Vector3.h"
 
 #include <cmath>
 
@@ -58,6 +59,11 @@ float Vector4::Dot(const Vector4 &other) const
 float Vector4::GetLength() const
 {
     return sqrt(Dot(*this));
+}
+
+Vector3 Vector4::GetXYZ() const
+{
+    return Vector3(x, y, z);
 }
 
 Vector4 &Vector4::operator+=(const Vector4 &rhs) { return Add(rhs); }

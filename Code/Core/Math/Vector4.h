@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Math/Vector3.h"
 class [[nodiscard]] Vector4
 {
 public:
@@ -27,6 +28,8 @@ public:
     float GetY() const { return y; }
     float GetZ() const { return z; }
     float GetW() const { return w; }
+
+    Vector3 GetXYZ() const;
 
     Vector4 &operator+=(const Vector4 &rhs);
     Vector4 &operator-=(const Vector4 &rhs);

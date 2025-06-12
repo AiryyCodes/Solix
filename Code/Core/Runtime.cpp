@@ -49,6 +49,8 @@ void Runtime::Init()
     m_Scene = CreateRef<Scene>();
 
     OnInit();
+
+    m_Scene->OnInit();
 }
 
 void Runtime::Update()

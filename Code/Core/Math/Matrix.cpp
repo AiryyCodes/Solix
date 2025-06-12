@@ -49,11 +49,11 @@ void Matrix4::RotateX(float rotation)
 {
     Matrix4 rot = Matrix4::Identity();
 
-    rot.m_Column[1].x = cos(rotation);
-    rot.m_Column[1].y = sin(rotation);
+    rot.m_Column[1].y = cos(rotation);
+    rot.m_Column[1].z = sin(rotation);
 
-    rot.m_Column[2].x = -sin(rotation);
-    rot.m_Column[2].y = cos(rotation);
+    rot.m_Column[2].y = -sin(rotation);
+    rot.m_Column[2].z = cos(rotation);
 
     *this = (*this) * rot;
 }
