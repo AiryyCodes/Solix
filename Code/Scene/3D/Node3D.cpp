@@ -41,11 +41,11 @@ Matrix4 Node3D::GetTransformMatrix() const
 {
     Matrix4 matrix = Matrix4::Identity();
 
+    matrix.Translate(m_Position);
     matrix.Scale(m_Scale);
     matrix.RotateZ(Math::ToRadians(m_Rotation.z));
     matrix.RotateY(Math::ToRadians(m_Rotation.y));
     matrix.RotateX(Math::ToRadians(m_Rotation.x));
-    matrix.Translate(m_Position);
 
     return matrix;
 }
