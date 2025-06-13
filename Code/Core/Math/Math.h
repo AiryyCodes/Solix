@@ -6,4 +6,6 @@ class Math
 {
 public:
     static float ToRadians(float degrees);
+
+    static float Clamp(float value, float min, float max);
 };

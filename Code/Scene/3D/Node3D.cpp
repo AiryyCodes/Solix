@@ -70,17 +70,51 @@ Matrix4 Node3D::GetGlobalTransform()
 
 Vector3 Node3D::GetRight()
 {
+    Vector3 front = GetFront();
+    Vector3 worldUp(0.0f, 1.0f, 0.0f);
+    Vector3 right = front.Cross(worldUp).Normalized();
+
+    // Apply roll around the front vector
+    float roll = Math::ToRadians(m_Rotation.z);
+    Matrix3 rollMatrix = Matrix3::RotationAxis(front, roll);
+
+    return (rollMatrix * right).Normalized();
+}
+
+Vector3 Node3D::GetGlobalRight()
+{
     return GetGlobalTransform()[0].GetXYZ().Normalized();
 }
 
 Vector3 Node3D::GetUp()
+{
+    Vector3 front = GetFront();
+    Vector3 right = GetRight();
+
+    return right.Cross(front).Normalized();
+}
+
+Vector3 Node3D::GetGlobalUp()
 {
     return GetGlobalTransform()[1].GetXYZ().Normalized();
 }
 
 Vector3 Node3D::GetFront()
 {
-    return -GetGlobalTransform()[2].GetXYZ().Normalized();
+    float yaw = Math::ToRadians(m_Rotation.y);
+    float pitch = Math::ToRadians(m_Rotation.x);
+
+    Vector3 forward;
+    forward.x = cos(pitch) * sin(yaw);
+    forward.y = -sin(pitch);
+    forward.z = -cos(pitch) * cos(yaw);
+
+    return forward.Normalized();
+}
+
+Vector3 Node3D::GetGlobalFront()
+{
+    return GetGlobalTransform()[1].GetXYZ().Normalized();
 }
 
 Vector3 Node3D::GetGlobalPosition()

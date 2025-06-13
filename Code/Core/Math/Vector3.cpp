@@ -29,6 +29,15 @@ Vector3 &Vector3::Multiply(const Vector3 &other)
     return *this;
 }
 
+Vector3 &Vector3::Multiply(float other)
+{
+    x *= other;
+    y *= other;
+    z *= other;
+
+    return *this;
+}
+
 Vector3 Vector3::Normalized() const
 {
     float length = GetLength();
@@ -67,6 +76,7 @@ float Vector3::Vector3::GetLength() const
 Vector3 &Vector3::operator+=(const Vector3 &rhs) { return Add(rhs); }
 Vector3 &Vector3::operator-=(const Vector3 &rhs) { return Subtract(rhs); }
 Vector3 &Vector3::operator*=(const Vector3 &rhs) { return Multiply(rhs); }
+Vector3 &Vector3::operator*=(float rhs) { return Multiply(rhs); }
 
 Vector3 Vector3::operator+(const Vector3 &rhs) const
 {
@@ -85,6 +95,14 @@ Vector3 Vector3::operator-(const Vector3 &rhs) const
 }
 
 Vector3 Vector3::operator*(const Vector3 &rhs) const
+{
+    Vector3 result = *this;
+    result *= rhs;
+
+    return result;
+}
+
+Vector3 Vector3::operator*(float rhs) const
 {
     Vector3 result = *this;
     result *= rhs;

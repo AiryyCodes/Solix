@@ -82,10 +82,5 @@ Matrix4 Camera3D::GetProjectionMatrix()
 
 Matrix4 Camera3D::GetViewMatrix()
 {
-    Vector3 eye = GetGlobalPosition();
-    Vector3 front = GetFront();
-    Vector3 target = eye + front;
-    Vector3 up = GetUp();
-
-    return Matrix4::LookAt(eye, target, up);
+    return Matrix4::LookAt(GetGlobalPosition(), GetRight(), GetUp(), GetFront());
 }

@@ -15,6 +15,7 @@ public:
     Vector3 &Add(const Vector3 &other);
     Vector3 &Subtract(const Vector3 &other);
     Vector3 &Multiply(const Vector3 &other);
+    Vector3 &Multiply(float other);
 
     Vector3 Normalized() const;
     Vector3 Cross(const Vector3 &other) const;
@@ -30,10 +31,12 @@ public:
     Vector3 &operator+=(const Vector3 &rhs);
     Vector3 &operator-=(const Vector3 &rhs);
     Vector3 &operator*=(const Vector3 &rhs);
+    Vector3 &operator*=(float rhs);
 
     Vector3 operator+(const Vector3 &rhs) const;
     Vector3 operator-(const Vector3 &rhs) const;
     Vector3 operator*(const Vector3 &rhs) const;
+    Vector3 operator*(float rhs) const;
 
     Vector3 operator-() const;
 };

@@ -2,6 +2,7 @@
 
 #include "Core/Optional.h"
 #include "Core/Result.h"
+#include "Input/Input.h"
 
 class IWindow
 {
@@ -20,4 +21,6 @@ public:
 
     virtual int GetHeight() const = 0;
     virtual void SetHeight(int height) = 0;
+
+    virtual void SetCursorMode(CursorMode mode) = 0;
 };

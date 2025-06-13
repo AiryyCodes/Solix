@@ -2,6 +2,7 @@
 
 #include "Core/Optional.h"
 #include "Core/Result.h"
+#include "Input/Input.h"
 #include "Renderer/IWindow.h"
 
 #include <GLFW/glfw3.h>
@@ -24,6 +25,8 @@ public:
 
     virtual int GetHeight() const override;
     virtual void SetHeight(int height) override;
+
+    void SetCursorMode(CursorMode mode) override;
 
     GLFWwindow *GetGLFWWindow() const { return m_Window; }
 

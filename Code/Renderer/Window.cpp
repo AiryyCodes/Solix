@@ -9,6 +9,8 @@
 Key glfwToKey(int key);
 Action glfwToAction(int action);
 
+int GetGLFWCursorMode(CursorMode mode);
+
 Window::Window(int width, int height, const std::string &title)
     : m_Width(width), m_Height(height), m_Title(title)
 {
@@ -30,7 +32,9 @@ Optional<Error> Window::OnInit()
     glfwMakeContextCurrent(m_Window);
 
     glfwSetKeyCallback(m_Window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
-                       { Input::KeyCallback(glfwToKey(key), glfwToAction(action)); });
+                       { Input::OnKey(glfwToKey(key), glfwToAction(action)); });
+    glfwSetCursorPosCallback(m_Window, [](GLFWwindow *, double mouseX, double mouseY)
+                             { Input::OnMouseMove(static_cast<float>(mouseX), static_cast<float>(mouseY)); });
 
     ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
 
@@ -63,6 +67,24 @@ void Window::SetHeight(int height)
     int currentWidth, currentHeight;
     glfwGetWindowSize(m_Window, &currentWidth, &currentWidth);
     glfwSetWindowSize(m_Window, currentWidth, height);
+}
+
+void Window::SetCursorMode(CursorMode mode)
+{
+    glfwSetInputMode(m_Window, GLFW_CURSOR, GetGLFWCursorMode(mode));
+}
+
+int GetGLFWCursorMode(CursorMode mode)
+{
+    switch (mode)
+    {
+    case CursorMode::Locked:
+        return GLFW_CURSOR_DISABLED;
+    case CursorMode::Unlocked:
+        return GLFW_CURSOR_NORMAL;
+    case CursorMode::Hidden:
+        return GLFW_CURSOR_HIDDEN;
+    }
 }
 
 Key glfwToKey(int key)

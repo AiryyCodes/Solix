@@ -24,15 +24,24 @@ public:
 
     const Vector2 &GetPosition() const { return m_Position; }
     Vector2 &GetPosition() { return m_Position; }
+    Vector2 GetGlobalPosition();
+
     void SetPosition(const Vector2 &position);
 
     const Vector2 &GetScale() const { return m_Scale; }
     Vector2 &GetScale() { return m_Scale; }
+    Vector2 GetGlobalScale();
+
     void SetScale(const Vector2 &scale);
 
     const float &GetRotation() const { return m_Rotation; }
     float &GetRotation() { return m_Rotation; }
+    float GetGlobalRotation();
+
     void SetRotation(float rotation);
+
+private:
+    Matrix3 GetRotationMatrix(const Matrix4 &matrix);
 
 private:
     Vector2 m_Position = {0.0f, 0.0f};

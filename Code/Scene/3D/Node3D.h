@@ -23,8 +23,13 @@ public:
     Matrix4 GetGlobalTransform() override;
 
     Vector3 GetUp();
+    Vector3 GetGlobalUp();
+
     Vector3 GetFront();
+    Vector3 GetGlobalFront();
+
     Vector3 GetRight();
+    Vector3 GetGlobalRight();
 
     const Vector3 &GetPosition() const { return m_Position; }
     Vector3 &GetPosition() { return m_Position; }
