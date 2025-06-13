@@ -1,6 +1,7 @@
 #include "Core/Runtime.h"
 #include "Core/Base.h"
 #include "Core/Logger.h"
+#include "Core/Time.h"
 #include "Renderer/OpenGL/OpenGLRenderer.h"
 #include "Renderer/Window.h"
 
@@ -55,6 +56,8 @@ void Runtime::Init()
 
 void Runtime::Update()
 {
+    Time::Update();
+
     m_Renderer->Clear();
     m_Renderer->ClearColor(Color(0, 0, 0, 255));
     m_Renderer->SetViewport(m_Window->GetWidth(), m_Window->GetHeight(), 0, 0);
