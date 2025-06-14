@@ -26,6 +26,9 @@ public:
     virtual int GetHeight() const override;
     virtual void SetHeight(int height) override;
 
+    virtual int GetFrameBufferWidth() const override;
+    virtual int GetFrameBufferHeight() const override;
+
     void SetCursorMode(CursorMode mode) override;
 
     GLFWwindow *GetGLFWWindow() const { return m_Window; }

@@ -60,7 +60,7 @@ void Runtime::Update()
 
     m_Renderer->Clear();
     m_Renderer->ClearColor(Color(0, 0, 0, 255));
-    m_Renderer->SetViewport(m_Window->GetWidth(), m_Window->GetHeight(), 0, 0);
+    m_Renderer->SetViewport(m_Window->GetFrameBufferWidth(), m_Window->GetFrameBufferHeight(), 0, 0);
 
     m_Renderer->OnFrameBegin();
 

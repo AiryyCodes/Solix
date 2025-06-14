@@ -22,5 +22,8 @@ public:
     virtual int GetHeight() const = 0;
     virtual void SetHeight(int height) = 0;
 
+    virtual int GetFrameBufferWidth() const = 0;
+    virtual int GetFrameBufferHeight() const = 0;
+
     virtual void SetCursorMode(CursorMode mode) = 0;
 };

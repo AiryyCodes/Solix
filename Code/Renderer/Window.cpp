@@ -69,6 +69,20 @@ void Window::SetHeight(int height)
     glfwSetWindowSize(m_Window, currentWidth, height);
 }
 
+int Window::GetFrameBufferWidth() const
+{
+    int width, height;
+    glfwGetFramebufferSize(m_Window, &width, &height);
+    return width;
+}
+
+int Window::GetFrameBufferHeight() const
+{
+    int width, height;
+    glfwGetFramebufferSize(m_Window, &width, &height);
+    return height;
+}
+
 void Window::SetCursorMode(CursorMode mode)
 {
     glfwSetInputMode(m_Window, GLFW_CURSOR, GetGLFWCursorMode(mode));
