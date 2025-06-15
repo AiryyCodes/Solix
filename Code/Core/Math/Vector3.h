@@ -40,3 +40,8 @@ public:
 
     Vector3 operator-() const;
 };
+
+inline Vector3 operator*(float scalar, const Vector3 &vec)
+{
+    return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+}

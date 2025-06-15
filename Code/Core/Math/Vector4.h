@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Math/Vector3.h"
+
 class [[nodiscard]] Vector4
 {
 public:
@@ -41,3 +42,8 @@ public:
 
     Vector4 operator-() const;
 };
+
+inline Vector4 operator*(float scalar, const Vector4 &vec)
+{
+    return Vector4(vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar);
+}

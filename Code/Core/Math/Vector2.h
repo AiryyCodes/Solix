@@ -35,3 +35,8 @@ public:
 
     Vector2 operator-() const;
 };
+
+inline Vector2 operator*(float scalar, const Vector2 &vec)
+{
+    return Vector2(vec.x * scalar, vec.y * scalar);
+}
