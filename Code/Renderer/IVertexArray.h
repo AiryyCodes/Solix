@@ -15,4 +15,6 @@ public:
     virtual void Unbind() = 0;
 
     virtual void SetLayout(const BufferLayout &layout) = 0;
+    virtual void EnableAttribute(unsigned int index, const BufferElement &element, int stride) = 0;
+    virtual void EnableAttribute(unsigned int index, const BufferElement &element, int stride, int offset) = 0;
 };

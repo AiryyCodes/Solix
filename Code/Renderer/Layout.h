@@ -46,8 +46,8 @@ class BufferLayout
 public:
     void AddElement(const std::string &name, BufferDataType type);
 
-    unsigned int GetComponents(BufferDataType type) const;
-    unsigned int GetSize(BufferDataType type) const;
+    static unsigned int GetComponents(BufferDataType type);
+    static unsigned int GetSize(BufferDataType type);
 
     const List<BufferElement> &GetElements() const { return m_Elements; }
 

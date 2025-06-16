@@ -38,7 +38,9 @@ Optional<Error> OpenGLShader::OnInit(const std::string &vertexPath, const std::s
     glLinkProgram(m_Id);
 
     int status;
+
     glGetProgramiv(m_Id, GL_LINK_STATUS, &status);
+
     if (!status)
     {
         char log[1024];
@@ -72,6 +74,7 @@ Result<unsigned int, Error> OpenGLShader::CompileShader(const std::string &path,
     int status;
 
     glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+
     if (!status)
     {
         char log[1024];

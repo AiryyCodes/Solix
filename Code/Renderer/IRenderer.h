@@ -8,6 +8,8 @@
 #include "Renderer/IShader.h"
 #include "Renderer/IVertexArray.h"
 #include "Renderer/Mesh.h"
+#include "Renderer/Texture.h"
+#include <string>
 
 class IRenderer
 {
@@ -26,10 +28,12 @@ public:
     virtual void SetViewport(int width, int height, int x, int y) const = 0;
 
     virtual void DrawArrays(const Mesh &mesh) const = 0;
+    virtual void ActivateTexture(int index) const = 0;
 
     virtual Ref<IArrayBuffer> CreateArrayBuffer() = 0;
     virtual Ref<IVertexArray> CreateVertexArray() = 0;
     virtual Ref<IShader> CreateShader() = 0;
+    virtual Ref<Texture> CreateTexture(const std::string &path) = 0;
 
     virtual Ref<IShader> GetMainShader() = 0;
 

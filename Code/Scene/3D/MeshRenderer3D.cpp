@@ -5,3 +5,9 @@ void MeshRenderer3D::Render()
 {
     IRenderer::Get().DrawArrays(m_Mesh);
 }
+
+void MeshRenderer3D::SetMesh(Mesh &mesh)
+{
+    m_Mesh = mesh;
+    m_Mesh.Init();
+}

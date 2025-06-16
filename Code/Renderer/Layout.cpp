@@ -11,7 +11,7 @@ void BufferLayout::AddElement(const std::string &name, BufferDataType type)
     m_Elements.Add(element);
 }
 
-unsigned int BufferLayout::GetComponents(BufferDataType type) const
+unsigned int BufferLayout::GetComponents(BufferDataType type)
 {
     switch (type)
     {
@@ -46,7 +46,7 @@ unsigned int BufferLayout::GetComponents(BufferDataType type) const
     return 0;
 }
 
-unsigned int BufferLayout::GetSize(BufferDataType type) const
+unsigned int BufferLayout::GetSize(BufferDataType type)
 {
     switch (type)
     {

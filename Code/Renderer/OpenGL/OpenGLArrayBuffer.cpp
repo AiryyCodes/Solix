@@ -1,4 +1,6 @@
 #include "Renderer/OpenGL/OpenGLArrayBuffer.h"
+#include "Core/Logger.h"
+#include "Core/Math/Vector3.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
 
@@ -12,6 +14,7 @@ OpenGLArrayBuffer::~OpenGLArrayBuffer()
 Optional<Error> OpenGLArrayBuffer::OnInit(const void *data, int size)
 {
     glGenBuffers(1, &m_Id);
+
     glBindBuffer(GL_ARRAY_BUFFER, m_Id);
 
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);

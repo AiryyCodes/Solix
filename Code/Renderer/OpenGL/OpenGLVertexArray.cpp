@@ -1,9 +1,12 @@
 #include "Renderer/OpenGL/OpenGLVertexArray.h"
+#include "Core/Logger.h"
 #include "Core/Optional.h"
 #include "Core/Result.h"
 #include "Core/Assert.h"
 #include "Renderer/Layout.h"
 
+#include <cstddef>
+#include <cstdint>
 #include <glad/gl.h>
 
 OpenGLVertexArray::~OpenGLVertexArray()
@@ -30,6 +33,8 @@ void OpenGLVertexArray::Unbind()
 
 void OpenGLVertexArray::SetLayout(const BufferLayout &layout)
 {
+    Bind();
+
     for (unsigned int i = 0; i < layout.GetElements().GetLength(); i++)
     {
         const BufferElement &element = layout.GetElements().Get(i);
@@ -49,6 +54,40 @@ void OpenGLVertexArray::SetLayout(const BufferLayout &layout)
     }
 
     m_Layout = layout;
+}
+
+void OpenGLVertexArray::EnableAttribute(unsigned int index, const BufferElement &element, int stride)
+{
+    // Should not be possible
+    ASSERT(BufferLayout::GetComponents(element.GetType()) != 0, "Invalid element type (Components: 0)");
+    ASSERT(GetGLType(element.GetType()) != GL_FALSE, "Invalid OpenGL element type");
+
+    Bind();
+    glVertexAttribPointer(
+        index,
+        BufferLayout::GetComponents(element.GetType()),
+        GetGLType(element.GetType()),
+        GL_FALSE,
+        stride,
+        (const void *)0);
+}
+
+void OpenGLVertexArray::EnableAttribute(unsigned int index, const BufferElement &element, int stride, int offset)
+{
+    // Should not be possible
+    ASSERT(BufferLayout::GetComponents(element.GetType()) != 0, "Invalid element type (Components: 0)");
+    ASSERT(GetGLType(element.GetType()) != GL_FALSE, "Invalid OpenGL element type");
+
+    Bind();
+
+    glEnableVertexAttribArray(index);
+    glVertexAttribPointer(
+        index,
+        BufferLayout::GetComponents(element.GetType()),
+        GetGLType(element.GetType()),
+        GL_FALSE,
+        stride,
+        (void *)(intptr_t)offset);
 }
 
 unsigned int OpenGLVertexArray::GetGLType(BufferDataType type) const

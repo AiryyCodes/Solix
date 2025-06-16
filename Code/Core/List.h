@@ -19,6 +19,9 @@ public:
     T &Get(int index) { return m_List.at(index); }
     const T &Get(int index) const { return m_List.at(index); }
 
+    T &GetLast() { return m_List.at(m_List.size() - 1); }
+    const T &GetLast() const { return m_List.at(m_List.size() - 1); }
+
     void Remove(const T &value)
     {
         auto it = std::find(value);
@@ -29,6 +32,9 @@ public:
     }
     void RemoveAt(int index) { m_List.erase(m_List.begin() + index); }
 
+    void Clear() { m_List.clear(); }
+
+    T *GetData() { return m_List.data(); }
     const T *GetData() const { return m_List.data(); }
 
     int GetSize() const { return sizeof(T) * m_List.size(); }

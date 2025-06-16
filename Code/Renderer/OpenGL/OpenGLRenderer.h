@@ -5,6 +5,8 @@
 #include "Core/Result.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
+#include "Renderer/Texture.h"
+#include <string>
 
 class OpenGLRenderer : public IRenderer
 {
@@ -23,10 +25,12 @@ public:
     virtual void SetViewport(int width, int height, int x, int y) const override;
 
     virtual void DrawArrays(const Mesh &mesh) const override;
+    virtual void ActivateTexture(int index) const override;
 
     virtual Ref<IArrayBuffer> CreateArrayBuffer() override;
     virtual Ref<IVertexArray> CreateVertexArray() override;
     virtual Ref<IShader> CreateShader() override;
+    virtual Ref<Texture> CreateTexture(const std::string &path) override;
 
     virtual Ref<IShader> GetMainShader() override { return m_MainShader; }
 

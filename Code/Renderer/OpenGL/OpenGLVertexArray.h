@@ -16,6 +16,8 @@ public:
     virtual void Unbind() override;
 
     virtual void SetLayout(const BufferLayout &layout) override;
+    virtual void EnableAttribute(unsigned int index, const BufferElement &element, int stride) override;
+    virtual void EnableAttribute(unsigned int index, const BufferElement &element, int stride, int offset) override;
 
 private:
     unsigned int GetGLType(BufferDataType type) const;
