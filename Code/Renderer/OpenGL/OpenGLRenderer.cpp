@@ -153,7 +153,7 @@ Optional<Error> OpenGLRenderer::OnInit()
     ImGui_ImplOpenGL3_Init();
 
     Ref<IShader> shader = CreateShader();
-    auto result = shader->OnInit("Resources/Shaders/Main.vert", "Resources/Shaders/Main.frag");
+    auto result = shader->OnInit("Solix/Resources/Shaders/Main.vert", "Solix/Resources/Shaders/Main.frag");
     if (result.HasValue())
     {
         LOG_ERROR(result.GetValue());
