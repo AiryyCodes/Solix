@@ -1,5 +1,6 @@
 #include "Renderer/Mesh.h"
 #include "Core/Logger.h"
+#include "Core/Math/Vector2.h"
 #include "Core/Math/Vector3.h"
 #include "Renderer/IArrayBuffer.h"
 #include "Renderer/IRenderer.h"
@@ -26,6 +27,12 @@ void Mesh::Init()
         Vertex vertex;
         vertex.position = m_Vertices.Get(i);
         vertex.normal = m_Normals.Get(i);
+        vertex.flags = 0;
+        if (m_UVs.IsInBounds(i))
+        {
+            vertex.uv = m_UVs.Get(i);
+            vertex.flags = VertexFlags::HasUV;
+        }
 
         vertices.Add(vertex);
     }
@@ -40,9 +47,13 @@ void Mesh::Init()
 
     BufferElement positionElement("a_Position", BufferDataType::Float3);
     BufferElement normalElement("a_Normal", BufferDataType::Float3);
+    BufferElement uvElement("a_TexCoord", BufferDataType::Float2);
+    BufferElement flagsElement("a_Flags", BufferDataType::UInt);
 
     m_VertexArray->EnableAttribute(0, positionElement, sizeof(Vertex), offsetof(Vertex, position));
     m_VertexArray->EnableAttribute(1, normalElement, sizeof(Vertex), offsetof(Vertex, normal));
+    m_VertexArray->EnableAttribute(2, uvElement, sizeof(Vertex), offsetof(Vertex, uv));
+    m_VertexArray->EnableAttribute(3, flagsElement, sizeof(Vertex), offsetof(Vertex, flags));
 
     m_ArrayBuffers.Add(buffer);
 }
@@ -51,8 +62,13 @@ void Mesh::Bind() const
 {
     if (m_Material.GetTexture())
     {
+        IRenderer::Get().GetMainShader()->SetUniform("u_HasTexture", true);
         IRenderer::Get().ActivateTexture(0);
         m_Material.GetTexture()->Bind();
+    }
+    else
+    {
+        IRenderer::Get().GetMainShader()->SetUniform("u_HasTexture", false);
     }
     m_VertexArray->Bind();
 }
@@ -90,10 +106,13 @@ void Mesh::GenerateNormals()
 
 void Mesh::SetVertices(List<Vector3> vertices)
 {
-    IRenderer &renderer = IRenderer::Get();
-
     m_Vertices = vertices;
     m_NumVertices = vertices.GetLength();
+}
+
+void Mesh::SetUVs(List<Vector2> uvs)
+{
+    m_UVs = uvs;
 }
 
 void Mesh::SetLayout(const BufferLayout &layout)

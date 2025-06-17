@@ -22,6 +22,8 @@ public:
     T &GetLast() { return m_List.at(m_List.size() - 1); }
     const T &GetLast() const { return m_List.at(m_List.size() - 1); }
 
+    bool IsInBounds(int index) const { return index >= 0 && index < m_List.size(); }
+
     void Remove(const T &value)
     {
         auto it = std::find(value);

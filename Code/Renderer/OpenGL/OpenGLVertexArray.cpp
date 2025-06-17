@@ -80,14 +80,29 @@ void OpenGLVertexArray::EnableAttribute(unsigned int index, const BufferElement 
 
     Bind();
 
-    glEnableVertexAttribArray(index);
-    glVertexAttribPointer(
-        index,
-        BufferLayout::GetComponents(element.GetType()),
-        GetGLType(element.GetType()),
-        GL_FALSE,
-        stride,
-        (void *)(intptr_t)offset);
+    switch (element.GetType())
+    {
+    case BufferDataType::Int:
+    case BufferDataType::UInt:
+        glEnableVertexAttribArray(index);
+        glVertexAttribIPointer(
+            index,
+            1,
+            GL_UNSIGNED_INT,
+            stride,
+            (void *)(intptr_t)offset);
+        break;
+    default:
+        glEnableVertexAttribArray(index);
+        glVertexAttribPointer(
+            index,
+            BufferLayout::GetComponents(element.GetType()),
+            GetGLType(element.GetType()),
+            GL_FALSE,
+            stride,
+            (void *)(intptr_t)offset);
+        break;
+    }
 }
 
 unsigned int OpenGLVertexArray::GetGLType(BufferDataType type) const
@@ -103,7 +118,7 @@ unsigned int OpenGLVertexArray::GetGLType(BufferDataType type) const
     case BufferDataType::Int4:
         return GL_INT;
     case BufferDataType::UInt:
-        return GL_INT;
+        return GL_UNSIGNED_INT;
     case BufferDataType::Float:
         return GL_FLOAT;
     case BufferDataType::Float2:

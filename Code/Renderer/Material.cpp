@@ -4,5 +4,7 @@
 Material::Material()
 {
     m_Texture = IRenderer::Get().CreateTexture("Resources/Textures/Null.png");
+    m_Texture->SetMipmap(false);
+    m_Texture->SetFilter(TextureFilter::Nearest);
     m_Texture->OnInit();
 }

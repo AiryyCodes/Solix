@@ -17,6 +17,8 @@ public:
     virtual void Unbind() const override;
 
     virtual void SetUniform(const std::string &name, const Matrix4 &value) override;
+    virtual void SetUniform(const std::string &name, bool value) override;
+    virtual void SetUniform(const std::string &name, int value) override;
 
 private:
     Result<unsigned int, Error> CompileShader(const std::string &path, const std::string &name, unsigned int type);

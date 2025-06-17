@@ -33,16 +33,21 @@ void OpenGLTexture::OnInit()
         {
         case 1:
             GL_RED;
+            break;
         case 2:
             GL_RG;
+            break;
         case 3:
             GL_RGB;
+            break;
         case 4:
             GL_RGBA;
+            break;
         }
+
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        // TODO: Generate mipmap
-        glGenerateMipmap(GL_TEXTURE_2D);
+        if (m_Mipmap)
+            glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
@@ -64,6 +69,8 @@ void OpenGLTexture::Unbind()
 
 void OpenGLTexture::SetFilter(TextureFilter filter)
 {
+    m_Filter = filter;
+
     Bind();
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetOpenGLFilter(filter, m_Mipmap));
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetOpenGLFilter(filter, false));

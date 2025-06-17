@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Base.h"
+#include "Renderer/IShader.h"
 #include "Renderer/Mesh.h"
 #include "Scene/2D/Node2D.h"
 #include "Scene/Node.h"
@@ -17,7 +19,9 @@ public:
     virtual void InspectorGUI() override {}
 
     void SetMesh(Mesh &mesh);
+    void SetShader(Ref<IShader> shader);
 
 private:
     Mesh m_Mesh;
+    Ref<IShader> m_Shader;
 };

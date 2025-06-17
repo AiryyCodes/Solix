@@ -17,4 +17,6 @@ public:
     virtual void Unbind() const = 0;
 
     virtual void SetUniform(const std::string &name, const Matrix4 &value) = 0;
+    virtual void SetUniform(const std::string &name, bool value) = 0;
+    virtual void SetUniform(const std::string &name, int value) = 0;
 };

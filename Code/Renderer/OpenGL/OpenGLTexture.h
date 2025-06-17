@@ -15,8 +15,8 @@ public:
     void Bind() override;
     void Unbind() override;
 
-    bool IsMipmap() const { return m_Mipmap; }
-    void SetMipmap(bool mipmap) { m_Mipmap = mipmap; }
+    bool IsMipmap() const override { return m_Mipmap; }
+    void SetMipmap(bool mipmap) override { m_Mipmap = mipmap; }
 
     TextureFilter GetFilter() const override
     {
