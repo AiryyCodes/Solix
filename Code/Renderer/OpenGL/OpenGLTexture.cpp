@@ -74,10 +74,10 @@ unsigned int OpenGLTexture::GetOpenGLFilter(TextureFilter filter, bool mipmap)
     switch (filter)
     {
     case TextureFilter::Linear:
-        return m_Mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+        return mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
     case TextureFilter::Nearest:
-        return m_Mipmap ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+        return mipmap ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
     default:
-        return m_Mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+        return mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
     }
 }
