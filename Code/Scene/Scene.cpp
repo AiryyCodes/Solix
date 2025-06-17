@@ -1,7 +1,11 @@
 #include "Scene/Scene.h"
+#include "Scene/3D/MeshRenderer3D.h"
 
 void Scene::OnInit()
 {
+    MeshRenderer3D node("My Node");
+    node.Init();
+
     for (const auto &node : m_Nodes)
     {
         Init(node);
@@ -26,7 +30,6 @@ void Scene::OnRender()
 
 void Scene::Init(Ref<Node> node)
 {
-    node->InitBase();
     node->Init();
     node->OnInit();
 
@@ -38,7 +41,6 @@ void Scene::Init(Ref<Node> node)
 
 void Scene::Update(Ref<Node> node)
 {
-    node->UpdateBase();
     node->Update();
     node->OnUpdate();
 
@@ -50,7 +52,6 @@ void Scene::Update(Ref<Node> node)
 
 void Scene::Render(Ref<Node> node)
 {
-    node->RenderBase();
     node->Render();
     node->OnRender();
 

@@ -12,6 +12,7 @@ public:
     virtual void OnUpdate() override {}
     virtual void OnRender() override {}
 
+    virtual void Init() override { Node3D::Init(); }
     virtual void Render() override;
     virtual void InspectorGUI() override {}
 

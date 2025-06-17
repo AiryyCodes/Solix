@@ -1,10 +1,8 @@
 #include "Scene/3D/Node3D.h"
-#include "Core/Base.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector3.h"
 #include "UI/Widget.h"
-#include "Renderer/IShader.h"
 
 #include <cmath>
 #include <imgui.h>

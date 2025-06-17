@@ -8,6 +8,8 @@
 
 void Camera3D::Render()
 {
+    Node3D::Render();
+
     // Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
 
     Ref<IShader> shader = GetShader();
@@ -18,6 +20,8 @@ void Camera3D::Render()
 
 void Camera3D::InspectorGUI()
 {
+    Node3D::InspectorGUI();
+
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
     ImGui::PushID("Camera3D");

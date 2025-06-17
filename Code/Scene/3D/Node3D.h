@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Base.h"
+#include "Core/Logger.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector3.h"
 #include "Renderer/IRenderer.h"

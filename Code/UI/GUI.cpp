@@ -148,7 +148,6 @@ void GUI::Inspector()
         }
 
         Node *node = m_State.selectedNode;
-        node->InspectorGUIBase();
         node->InspectorGUI();
         node->OnInspectorGUI();
     }

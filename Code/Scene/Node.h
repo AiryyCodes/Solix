@@ -8,26 +8,9 @@
 #include <memory>
 #include <string>
 
-#define NODE_CLASS(NodeClass, BaseClass)                    \
-public:                                                     \
-    NodeClass(const std::string &name) : BaseClass(name) {} \
-                                                            \
-    void InitBase() override                                \
-    {                                                       \
-        BaseClass::Init();                                  \
-    }                                                       \
-    void UpdateBase() override                              \
-    {                                                       \
-        BaseClass::Update();                                \
-    }                                                       \
-    void RenderBase() override                              \
-    {                                                       \
-        BaseClass::Render();                                \
-    }                                                       \
-    void InspectorGUIBase() override                        \
-    {                                                       \
-        BaseClass::InspectorGUI();                          \
-    }
+#define NODE_CLASS(NodeClass, BaseClass) \
+public:                                  \
+    NodeClass(const std::string &name) : BaseClass(name) {}
 
 class Node
 {
@@ -101,12 +84,6 @@ public:
     virtual void Update() {}
     virtual void Render() {}
     virtual void InspectorGUI() {}
-
-    /* FOR BASE NODE LOGIC */
-    virtual void InitBase() {}
-    virtual void UpdateBase() {}
-    virtual void RenderBase() {}
-    virtual void InspectorGUIBase() {}
 
     virtual bool ShouldRender() const { return true; }
 
