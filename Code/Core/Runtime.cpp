@@ -68,7 +68,7 @@ void Runtime::Update()
 
     OnUpdate();
 
-    GetRenderer()->GetMainShader()->Bind();
+    // GetRenderer()->GetMainShader()->Bind();
     GetScene()->OnRender();
 
     GetRenderer()->OnFrameEnd();

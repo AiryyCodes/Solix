@@ -24,9 +24,9 @@ public:
     Ref<Scene> GetScene() const { return m_Scene; }
 
     template <typename T>
-    Ref<T> As()
+    T *As()
     {
-        return std::static_pointer_cast<T>(m_Instance);
+        return static_cast<T *>(m_Instance);
     }
 
     static Runtime &Get() { return *m_Instance; }

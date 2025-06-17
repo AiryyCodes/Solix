@@ -93,26 +93,38 @@ void OpenGLShader::Bind() const
 
 void OpenGLShader::Unbind() const
 {
-    if (glIsProgram(m_Id))
-    {
-        glUseProgram(0);
-    }
+    glUseProgram(0);
 }
 
 void OpenGLShader::SetUniform(const std::string &name, const Matrix4 &value)
 {
     int location = glGetUniformLocation(m_Id, name.c_str());
+    if (location == -1)
+    {
+        return;
+    }
+
     glUniformMatrix4fv(location, 1, GL_FALSE, value.GetValue());
 }
 
 void OpenGLShader::SetUniform(const std::string &name, bool value)
 {
     int location = glGetUniformLocation(m_Id, name.c_str());
+    if (location == -1)
+    {
+        return;
+    }
+
     glUniform1i(location, value);
 }
 
 void OpenGLShader::SetUniform(const std::string &name, int value)
 {
     int location = glGetUniformLocation(m_Id, name.c_str());
+    if (location == -1)
+    {
+        return;
+    }
+
     glUniform1i(location, value);
 }

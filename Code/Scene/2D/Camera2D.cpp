@@ -1,14 +1,12 @@
 #include "Scene/2D/Camera2D.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Runtime.h"
-#include "Renderer/IRenderer.h"
 
 void Camera2D::Render()
 {
-    Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
-
-    mainShader->SetUniform("u_View", GetViewMatrix());
-    mainShader->SetUniform("u_Projection", GetProjectionMatrix());
+    GetShader()->Bind();
+    GetShader()->SetUniform("u_View", GetViewMatrix());
+    GetShader()->SetUniform("u_Projection", GetProjectionMatrix());
 }
 
 Matrix4 Camera2D::GetProjectionMatrix()

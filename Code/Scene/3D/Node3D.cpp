@@ -1,13 +1,10 @@
 #include "Scene/3D/Node3D.h"
 #include "Core/Base.h"
-#include "Core/Logger.h"
 #include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector3.h"
 #include "UI/Widget.h"
-#include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
-#include "Scene/3D/Camera3D.h"
 
 #include <cmath>
 #include <imgui.h>
@@ -17,8 +14,8 @@ void Node3D::Render()
     if (!ShouldRender())
         return;
 
-    Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
-    mainShader->SetUniform("u_Transform", GetGlobalTransform());
+    m_Shader->Bind();
+    m_Shader->SetUniform("u_Transform", GetGlobalTransform());
 }
 
 void Node3D::InspectorGUI()

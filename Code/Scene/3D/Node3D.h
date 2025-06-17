@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Core/Base.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector3.h"
+#include "Renderer/IRenderer.h"
+#include "Renderer/IShader.h"
 #include "Scene/Node.h"
 
 class Node3D : public Node
@@ -49,6 +52,9 @@ public:
 
     void SetRotation(const Vector3 &rotation);
 
+    Ref<IShader> GetShader() const { return m_Shader; }
+    void SetShader(Ref<IShader> shader) { m_Shader = shader; }
+
 private:
     Matrix3 GetRotationMatrix(const Matrix4 &matrix);
 
@@ -58,4 +64,6 @@ private:
     Vector3 m_Rotation = {0.0f, 0.0f, 0.0f};
 
     Matrix4 m_GlobalTransform;
+
+    Ref<IShader> m_Shader = IRenderer::Get().GetMainShader();
 };

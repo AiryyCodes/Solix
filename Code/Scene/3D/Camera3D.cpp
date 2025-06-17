@@ -2,17 +2,18 @@
 #include "Core/Base.h"
 #include "Core/Math/Math.h"
 #include "Core/Runtime.h"
-#include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 
 #include <imgui.h>
 
 void Camera3D::Render()
 {
-    Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
+    // Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
 
-    mainShader->SetUniform("u_View", GetViewMatrix());
-    mainShader->SetUniform("u_Projection", GetProjectionMatrix());
+    Ref<IShader> shader = GetShader();
+    shader->Bind();
+    shader->SetUniform("u_View", GetViewMatrix());
+    shader->SetUniform("u_Projection", GetProjectionMatrix());
 }
 
 void Camera3D::InspectorGUI()

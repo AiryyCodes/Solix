@@ -14,8 +14,9 @@ void Node2D::Render()
     if (!ShouldRender())
         return;
 
-    Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
-    mainShader->SetUniform("u_Transform", GetGlobalTransform());
+    // Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
+    GetShader()->Bind();
+    GetShader()->SetUniform("u_Transform", GetGlobalTransform());
 }
 
 void Node2D::InspectorGUI()
