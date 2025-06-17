@@ -4,6 +4,8 @@
 
 void Camera2D::Render()
 {
+    Node2D::Render();
+
     GetShader()->Bind();
     GetShader()->SetUniform("u_View", GetViewMatrix());
     GetShader()->SetUniform("u_Projection", GetProjectionMatrix());

@@ -4,8 +4,6 @@
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector2.h"
 #include "UI/Widget.h"
-#include "Renderer/IRenderer.h"
-#include "Renderer/IShader.h"
 
 #include <imgui.h>
 
@@ -14,7 +12,6 @@ void Node2D::Render()
     if (!ShouldRender())
         return;
 
-    // Ref<IShader> mainShader = IRenderer::Get().GetMainShader();
     GetShader()->Bind();
     GetShader()->SetUniform("u_Transform", GetGlobalTransform());
 }
