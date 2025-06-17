@@ -207,6 +207,11 @@ void OpenGLRenderer::DrawArrays(const Mesh &mesh) const
 {
     mesh.Bind();
     glDrawArrays(GL_TRIANGLES, 0, mesh.GetNumVertices());
+
+    if (mesh.GetMaterial().GetTexture())
+    {
+        mesh.GetMaterial().GetTexture()->Unbind();
+    }
 }
 
 void OpenGLRenderer::ActivateTexture(int index) const

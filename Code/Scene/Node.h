@@ -7,7 +7,6 @@
 
 #include <memory>
 #include <string>
-#include <utility>
 
 #define NODE_CLASS(NodeClass, BaseClass)                    \
 public:                                                     \

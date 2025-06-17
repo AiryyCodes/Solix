@@ -6,6 +6,8 @@
 class Material
 {
 public:
+    Material();
+
     Ref<Texture> GetTexture() const { return m_Texture; }
     void SetTexture(Ref<Texture> texture) { m_Texture = texture; }
 
