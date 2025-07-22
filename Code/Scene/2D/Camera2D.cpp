@@ -1,4 +1,5 @@
 #include "Scene/2D/Camera2D.h"
+#include "Core/Math/Math.h"
 #include "Core/Math/Matrix.h"
 #include "Core/Runtime.h"
 
@@ -30,6 +31,10 @@ Matrix4 Camera2D::GetProjectionMatrix()
 Matrix4 Camera2D::GetViewMatrix()
 {
     Matrix4 matrix = Matrix4::Identity();
-    matrix.Translate(-GetPosition());
-    return matrix;
+
+    matrix.Translate(GetPosition());
+
+    matrix.RotateZ(Math::ToRadians(-GetRotation()));
+
+    return matrix.Inverse();
 }

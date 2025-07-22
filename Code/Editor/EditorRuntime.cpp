@@ -2,13 +2,14 @@
 #include "Core/Base.h"
 #include "Core/List.h"
 #include "Core/Logger.h"
+#include "Core/Math/Vector2.h"
+#include "Core/Object.h"
+#include "Renderer/IRenderer.h"
 #include "UI/GUI.h"
 #include "Renderer/Layout.h"
 #include "Renderer/Mesh.h"
 #include "Scene/2D/Camera2D.h"
 #include "Scene/2D/MeshRenderer2D.h"
-#include "Scene/3D/Camera3D.h"
-#include "Scene/Scene.h"
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -29,6 +30,9 @@ void EditorRuntime::OnInit()
 {
     LOG_INFO("Starting editor...");
 
+    REGISTER_CLASS(Camera2D, Node2D);
+    REGISTER_CLASS(Node2D, Node);
+
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -38,10 +42,10 @@ void EditorRuntime::OnInit()
 
     Mesh mesh;
     mesh.SetVertices(QUAD_VERTICES);
-    mesh.SetLayout(layout);
+    // mesh.SetLayout(layout);
 
-    Ref<Camera3D> camera = GetScene()->AddNode<Camera3D>("Camera3D");
-    camera->SetPosition(Vector3(0.0f, 0.0f, 2.5f));
+    Ref<Camera2D> camera = GetScene()->AddNode<Camera2D>("Camera2D");
+    camera->SetPosition(Vector2(0.0f, 0.0f));
 
     Ref<MeshRenderer2D> meshRenderer = GetScene()->AddNode<MeshRenderer2D>("MeshRenderer2D");
     meshRenderer->SetMesh(mesh);

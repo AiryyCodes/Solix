@@ -4,15 +4,21 @@
 #include "Core/Assert.h"
 #include "Core/List.h"
 #include "Core/Math/Matrix.h"
+#include "Core/Object.h"
 
 #include <memory>
 #include <string>
 
-#define NODE_CLASS(NodeClass, BaseClass) \
-public:                                  \
-    NodeClass(const std::string &name) : BaseClass(name) {}
+#define NODE_CLASS(CLASS_NAME, BASE_CLASS_NAME)                           \
+public:                                                                   \
+    static Object *CreateInstance() { return new CLASS_NAME("default"); } \
+    const char *GetClassName() const override { return #CLASS_NAME; }     \
+    static const char *GetBaseClassName() { return #BASE_CLASS_NAME; }    \
+                                                                          \
+public:                                                                   \
+    CLASS_NAME(const std::string &name) : BASE_CLASS_NAME(name) {}
 
-class Node
+class Node : public Object
 {
 public:
     explicit Node(const std::string &name)

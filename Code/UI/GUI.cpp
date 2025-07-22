@@ -1,4 +1,7 @@
 #include "UI/GUI.h"
+#include "Core/Logger.h"
+#include "Core/Object.h"
+#include "Core/Variant.h"
 #include "UI/Widget.h"
 #include "Scene/2D/Node2D.h"
 #include "Scene/Scene.h"
@@ -137,6 +140,74 @@ void GUI::HierarchyChildren(Ref<Node> node)
     }
 }
 
+void DrawPropertiesRecursive(Object *obj, const ClassInfo *info)
+{
+    if (!info)
+        return;
+
+    // Draw base class properties first
+    if (!info->base.empty())
+    {
+        const ClassInfo *base_info = ClassDB::GetClass(info->base);
+        DrawPropertiesRecursive(obj, base_info);
+    }
+
+    // Draw this class’s properties
+    for (const auto &prop : info->properties)
+    {
+        Variant val = prop.getter(obj);
+
+        // Example for int property
+        if (val.GetType() == Variant::Int)
+        {
+            int v = val;
+            if (ImGui::InputInt(prop.name.c_str(), &v))
+            {
+                prop.setter(obj, Variant(v));
+            }
+        }
+        else if (val.GetType() == Variant::Float)
+        {
+            float v = val;
+            LOG_INFO("Drawing property: {}", v);
+            if (ImGui::DragFloat(prop.name.c_str(), &v))
+            {
+                prop.setter(obj, Variant(v));
+            }
+        }
+        else if (val.GetType() == Variant::Vector2)
+        {
+            Vector2 vector = val;
+            float v[2] = {vector.x, vector.y};
+
+            // LOG_INFO("Drawing property: {}", v);
+            if (ImGui::DragFloat2(prop.name.c_str(), v, 0.1f))
+            {
+                vector.x = v[0];
+                vector.y = v[1];
+                prop.setter(obj, Variant(vector));
+            }
+        }
+
+        // Extend for float, bool, string, Vector2, etc.
+        // For example:
+        // else if (val.is_float()) { ... }
+        // else if (val.is_bool()) { ... }
+        // ...
+    }
+}
+
+void InspectorDrawNode(Object *node)
+{
+    if (!node)
+        return;
+
+    const ClassInfo *info = ClassDB::GetClass(node->GetClassName());
+    // LOG_INFO("Class Info: Class: {}", info->name);
+
+    DrawPropertiesRecursive(node, info);
+}
+
 void GUI::Inspector()
 {
     ImGui::Begin("Inspector");
@@ -148,8 +219,10 @@ void GUI::Inspector()
         }
 
         Node *node = m_State.selectedNode;
-        node->InspectorGUI();
-        node->OnInspectorGUI();
+        InspectorDrawNode(node);
+
+        // node->InspectorGUI();
+        // node->OnInspectorGUI();
     }
     ImGui::End();
 }

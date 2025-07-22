@@ -3,6 +3,8 @@
 
 void MeshRenderer2D::Render()
 {
+    Node2D::Render();
+
     GetShader()->Bind();
     IRenderer::Get().DrawArrays(m_Mesh);
 }
@@ -10,5 +12,5 @@ void MeshRenderer2D::Render()
 void MeshRenderer2D::SetMesh(Mesh &mesh)
 {
     m_Mesh = mesh;
-    mesh.Init();
+    m_Mesh.Init();
 }

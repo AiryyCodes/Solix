@@ -25,6 +25,8 @@ public:
     void RotateY(float rotation);
     void RotateZ(float rotation);
 
+    Matrix4 Inverse();
+
     float *GetValue() const;
 
     static Matrix4 Identity();

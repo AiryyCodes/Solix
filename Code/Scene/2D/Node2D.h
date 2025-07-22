@@ -22,6 +22,11 @@ public:
 
     virtual void InspectorGUI() override;
 
+    virtual void OnRegisterProperties() override
+    {
+        REGISTER_PROPERTY(Node2D, "Position", GetPosition, SetPosition);
+    }
+
     Matrix4 GetTransformMatrix() const;
     Matrix4 GetGlobalTransform() override;
 

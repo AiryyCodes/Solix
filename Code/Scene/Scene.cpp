@@ -1,11 +1,7 @@
 #include "Scene/Scene.h"
-#include "Scene/3D/MeshRenderer3D.h"
 
 void Scene::OnInit()
 {
-    MeshRenderer3D node("My Node");
-    node.Init();
-
     for (const auto &node : m_Nodes)
     {
         Init(node);
