@@ -16,10 +16,7 @@ public:
 
     virtual void Render() override;
 
-    virtual void OnRegisterProperties() override
-    {
-        REGISTER_PROPERTY(Camera2D, "Zoom", GetZoom, SetZoom);
-    }
+    static void OnRegisterProperties();
 
     Matrix4 GetProjectionMatrix();
     Matrix4 GetViewMatrix();

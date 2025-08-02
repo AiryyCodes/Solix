@@ -145,55 +145,126 @@ void DrawPropertiesRecursive(Object *obj, const ClassInfo *info)
     if (!info)
         return;
 
-    // Draw base class properties first
-    if (!info->base.empty())
-    {
-        const ClassInfo *base_info = ClassDB::GetClass(info->base);
-        DrawPropertiesRecursive(obj, base_info);
-    }
-
-    // Draw this class’s properties
+    // Group properties by their group name
+    std::unordered_map<std::string, std::vector<const Property *>> groupedProps;
     for (const auto &prop : info->properties)
     {
-        Variant val = prop.getter(obj);
+        groupedProps[prop.group].push_back(&prop);
+    }
 
-        // Example for int property
-        if (val.GetType() == Variant::Int)
+    if (!info->properties.empty())
+    {
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize(info->name.c_str()).x) * 0.5f);
+        ImGui::Text("%s", info->name.c_str());
+    }
+
+    // Draw each group as a collapsible header (or no header if group is empty)
+    for (auto &[groupName, props] : groupedProps)
+    {
+        bool open = true;
+        if (!groupName.empty())
+            open = ImGui::CollapsingHeader(groupName.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+
+        if (open)
         {
-            int v = val;
-            if (ImGui::InputInt(prop.name.c_str(), &v))
+            for (const Property *prop : props)
             {
-                prop.setter(obj, Variant(v));
+                Variant val = prop->getter(obj);
+
+                if (val.GetType() == Variant::Int)
+                {
+                    int v = val;
+                    if (ImGui::InputInt(prop->name.c_str(), &v))
+                    {
+                        prop->setter(obj, Variant(v));
+                    }
+                }
+                else if (val.GetType() == Variant::Float)
+                {
+                    float v = val;
+
+                    ImGui::AlignTextToFramePadding();
+                    ImGui::Text("%s", prop->name.c_str());
+                    ImGui::SameLine();
+
+                    ImGui::PushID(prop->name.c_str());
+                    // Get full available content region (i.e. whole window content width)
+                    float fullWidth = ImGui::GetContentRegionAvail().x + ImGui::GetCursorPosX();
+                    float sliderWidth = fullWidth * 0.5f;
+
+                    // Align to the right
+                    float startX = fullWidth - sliderWidth;
+                    ImGui::SetCursorPosX(startX);
+
+                    ImGui::PushItemWidth(sliderWidth);
+                    if (ImGui::DragFloat("##f", &v, 0.005f))
+                    {
+                        prop->setter(obj, Variant(v));
+                    }
+                    ImGui::PopItemWidth();
+                    ImGui::PopID();
+                }
+                else if (val.GetType() == Variant::Vector2)
+                {
+                    Vector2 vector = val;
+                    float v[2] = {vector.x, vector.y};
+
+                    ImGui::Text("%s", prop->name.c_str());
+                    ImGui::SameLine();
+
+                    ImGui::PushID(prop->name.c_str());
+
+                    // Global layout constants
+                    float fullContentWidth = ImGui::GetContentRegionAvail().x + ImGui::GetCursorPosX();
+                    float totalWidth = fullContentWidth * 0.5f; // Total width for [label + slider]
+                    float labelWidth = ImGui::CalcTextSize("Y").x;
+                    float spacing = ImGui::GetStyle().ItemSpacing.x;
+                    float sliderWidth = totalWidth - labelWidth - spacing;
+
+                    // Final aligned start X
+                    float startX = fullContentWidth - totalWidth;
+
+                    // -- X --
+                    ImGui::AlignTextToFramePadding();
+                    ImGui::SetCursorPosX(startX);
+                    ImGui::PushItemWidth(labelWidth);
+                    ImGui::TextUnformatted("X");
+                    ImGui::PopItemWidth();
+
+                    ImGui::SameLine();
+                    ImGui::PushItemWidth(sliderWidth);
+                    bool changed = ImGui::DragFloat("##X", &v[0], 0.005f);
+                    ImGui::PopItemWidth();
+
+                    // -- Y --
+                    ImGui::AlignTextToFramePadding();
+                    ImGui::SetCursorPosX(startX);
+                    ImGui::PushItemWidth(labelWidth);
+                    ImGui::TextUnformatted("Y");
+                    ImGui::PopItemWidth();
+
+                    ImGui::SameLine();
+                    ImGui::PushItemWidth(sliderWidth);
+                    changed |= ImGui::DragFloat("##Y", &v[1], 0.005f);
+                    ImGui::PopItemWidth();
+
+                    ImGui::PopID();
+                    if (changed)
+                    {
+                        vector.x = v[0];
+                        vector.y = v[1];
+                        prop->setter(obj, Variant(vector));
+                    }
+                }
             }
         }
-        else if (val.GetType() == Variant::Float)
-        {
-            float v = val;
-            LOG_INFO("Drawing property: {}", v);
-            if (ImGui::DragFloat(prop.name.c_str(), &v))
-            {
-                prop.setter(obj, Variant(v));
-            }
-        }
-        else if (val.GetType() == Variant::Vector2)
-        {
-            Vector2 vector = val;
-            float v[2] = {vector.x, vector.y};
+    }
 
-            // LOG_INFO("Drawing property: {}", v);
-            if (ImGui::DragFloat2(prop.name.c_str(), v, 0.1f))
-            {
-                vector.x = v[0];
-                vector.y = v[1];
-                prop.setter(obj, Variant(vector));
-            }
-        }
-
-        // Extend for float, bool, string, Vector2, etc.
-        // For example:
-        // else if (val.is_float()) { ... }
-        // else if (val.is_bool()) { ... }
-        // ...
+    // Draw base class properties
+    if (!info->base.empty())
+    {
+        const ClassInfo *baseInfo = ClassRegistry::GetClass(info->base);
+        DrawPropertiesRecursive(obj, baseInfo);
     }
 }
 
@@ -202,8 +273,7 @@ void InspectorDrawNode(Object *node)
     if (!node)
         return;
 
-    const ClassInfo *info = ClassDB::GetClass(node->GetClassName());
-    // LOG_INFO("Class Info: Class: {}", info->name);
+    const ClassInfo *info = ClassRegistry::GetClass(node->GetClassName());
 
     DrawPropertiesRecursive(node, info);
 }
@@ -220,9 +290,6 @@ void GUI::Inspector()
 
         Node *node = m_State.selectedNode;
         InspectorDrawNode(node);
-
-        // node->InspectorGUI();
-        // node->OnInspectorGUI();
     }
     ImGui::End();
 }

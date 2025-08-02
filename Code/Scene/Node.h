@@ -83,13 +83,11 @@ public:
     virtual void OnInit() {}
     virtual void OnUpdate() {}
     virtual void OnRender() {}
-    virtual void OnInspectorGUI() {}
 
     /* FOR CUSTOM INTERNAL LOGIC */
     virtual void Init() {}
     virtual void Update() {}
     virtual void Render() {}
-    virtual void InspectorGUI() {}
 
     virtual bool ShouldRender() const { return true; }
 

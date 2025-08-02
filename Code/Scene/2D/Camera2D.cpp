@@ -12,12 +12,17 @@ void Camera2D::Render()
     GetShader()->SetUniform("u_Projection", GetProjectionMatrix());
 }
 
+void Camera2D::OnRegisterProperties()
+{
+    REGISTER_PROPERTY(Camera2D, "Zoom", GetZoom, SetZoom);
+}
+
 Matrix4 Camera2D::GetProjectionMatrix()
 {
     Runtime &runtime = Runtime::Get();
 
     float aspect = (float)runtime.GetWindow()->GetWidth() / (float)runtime.GetWindow()->GetHeight();
-    float height = 2.0f;
+    float height = 2.0f / m_Zoom;
     float width = height * aspect;
 
     float left = -width / 2.0f;

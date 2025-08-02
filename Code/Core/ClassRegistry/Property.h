@@ -12,6 +12,8 @@ struct Property
     std::string name;
     std::function<Variant(Object *)> getter;
     std::function<void(Object *, const Variant &)> setter;
+
+    std::string group = "";
 };
 
 struct ClassInfo
@@ -20,4 +22,6 @@ struct ClassInfo
     std::string base;
     std::function<Object *()> factory;
     std::vector<Property> properties;
+
+    bool propertiesRegistered = false;
 };

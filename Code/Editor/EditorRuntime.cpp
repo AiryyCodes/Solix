@@ -32,6 +32,7 @@ void EditorRuntime::OnInit()
 
     REGISTER_CLASS(Camera2D, Node2D);
     REGISTER_CLASS(Node2D, Node);
+    REGISTER_CLASS(MeshRenderer2D, Node2D);
 
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;

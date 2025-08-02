@@ -2,6 +2,7 @@
 
 #include "Core/Base.h"
 #include "Core/Math/Matrix.h"
+#include "Core/Object.h"
 #include "Renderer/IRenderer.h"
 #include "Renderer/IShader.h"
 #include "Scene/Node.h"
@@ -20,12 +21,7 @@ public:
     virtual void Update() override {}
     virtual void Render() override;
 
-    virtual void InspectorGUI() override;
-
-    virtual void OnRegisterProperties() override
-    {
-        REGISTER_PROPERTY(Node2D, "Position", GetPosition, SetPosition);
-    }
+    static void OnRegisterProperties();
 
     Matrix4 GetTransformMatrix() const;
     Matrix4 GetGlobalTransform() override;

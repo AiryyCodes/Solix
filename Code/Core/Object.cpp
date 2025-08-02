@@ -5,7 +5,7 @@
 
 Variant Object::GetProperty(const std::string &name) const
 {
-    const ClassInfo *info = ClassDB::GetClass(GetClassName());
+    const ClassInfo *info = ClassRegistry::GetClass(GetClassName());
     if (!info)
         return Variant();
 
@@ -19,7 +19,7 @@ Variant Object::GetProperty(const std::string &name) const
 
 void Object::SetProperty(const std::string &name, const Variant &value)
 {
-    const ClassInfo *info = ClassDB::GetClass(GetClassName());
+    const ClassInfo *info = ClassRegistry::GetClass(GetClassName());
     if (!info)
         return;
 
